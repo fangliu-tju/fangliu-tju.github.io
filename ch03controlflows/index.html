@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="cn"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>控制流 · Julia程序设计基础</title><script data-outdated-warner src="../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.039/juliamono-regular.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.11/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><a class="docs-logo" href="../"><img src="../assets/logo.png" alt="Julia程序设计基础 logo"/></a><div class="docs-package-name"><span class="docs-autofit"><a href="../">Julia程序设计基础</a></span></div><form class="docs-search" action="../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../">安装与配置</a></li><li><a class="tocitem" href="../ch02dadatypes/">数据类型</a></li><li class="is-active"><a class="tocitem" href>控制流</a><ul class="internal"><li><a class="tocitem" href="#复合语句"><span>复合语句</span></a></li><li><a class="tocitem" href="#注释"><span>注释</span></a></li><li><a class="tocitem" href="#分支"><span>分支</span></a></li><li><a class="tocitem" href="#迭代"><span>迭代</span></a></li><li><a class="tocitem" href="#异常处理"><span>异常处理</span></a></li></ul></li><li><a class="tocitem" href="../ch04function/">函数和方法</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>控制流</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>控制流</a></li></ul></nav><div class="docs-right"><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="控制流"><a class="docs-heading-anchor" href="#控制流">控制流</a><a id="控制流-1"></a><a class="docs-heading-anchor-permalink" href="#控制流" title="Permalink"></a></h1><p>分支和循环等控制流是命令式编程风格的核心。作为一种多范式编程语言，Julia支持所有知名的命令式风格和结构。</p><h2 id="复合语句"><a class="docs-heading-anchor" href="#复合语句">复合语句</a><a id="复合语句-1"></a><a class="docs-heading-anchor-permalink" href="#复合语句" title="Permalink"></a></h2><p>语句是程序员给计算机下达的命令。如打印一段文字，或给一个变量赋初值。</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; println(&quot;Hello, world!&quot;)</code><code class="nohighlight hljs ansi" style="display:block;">Hello, world!</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; a = 10.0</code><code class="nohighlight hljs ansi" style="display:block;">10.0</code></pre><p>Julia每次只能执行一条语句。如果需要把多条语句作为一个大型的复合执行单元（如同一条语句）来看待，则可以使用<code>begin</code>和<code>end</code>块将任意语句集包围起来。</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; z = begin
+           x = 1
+           y = 2
+           x + y
+       end</code><code class="nohighlight hljs ansi" style="display:block;">3</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; z</code><code class="nohighlight hljs ansi" style="display:block;">3</code></pre><p>块中最后一个表达式的值作为复合块的值。同样的表达式可以在单行中写成使用大括号包围的由分号分隔的语句集。</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; z = (x = 1; y = 2; x + y)</code><code class="nohighlight hljs ansi" style="display:block;">3</code></pre><p>下面也是有效的复合语句。</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; z = (x = 1;
+           y = 2;
+           x + y)</code><code class="nohighlight hljs ansi" style="display:block;">3</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; z = begin x=1; y=2; x+y end</code><code class="nohighlight hljs ansi" style="display:block;">3</code></pre><p>由上可见，要在单行中编写多条语序，需要使用<code>;</code>将每条语句分隔开来。另外，Julia是通过最小语义单元来判断输入的内容是否是单行的，而不是通过回车换行来判断。</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; a =
+       1</code><code class="nohighlight hljs ansi" style="display:block;">1</code></pre><h2 id="注释"><a class="docs-heading-anchor" href="#注释">注释</a><a id="注释-1"></a><a class="docs-heading-anchor-permalink" href="#注释" title="Permalink"></a></h2><p>随着程序越来越长，越来越复杂，阅读起来也变得更加困难。因此，通过对程序增加笔记来说明它到底做了些什么是一个非常明智的方法。这些笔记被称为<em>注释</em>，它们以 <code>#</code> 号开头：</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; # 计算已用时间的百分比（总时长是60分）
+       percentage = (20 * 100) / 60</code><code class="nohighlight hljs ansi" style="display:block;">33.333333333333336</code></pre><p>在这个例子中，注释独占一行。你也可以将注释放到一行的末尾：</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; percentage = (20 * 100) / 60  # 已用时间的百分比</code><code class="nohighlight hljs ansi" style="display:block;">33.333333333333336</code></pre><p><code>#</code> 号以后的所有内容都被程序忽略掉——它对程序的执行不起任何作用。</p><p>当我们写的注释需要连续占用很多行，这时在每行的开头都使用<code>#</code>会很麻烦。还有一种情况，我们可能需要在同一行的一条语句的中间插入注释，这时<code>#</code>会完全失效（因为<code>#</code>以后的内容被全部忽略），Julia提供的另一种注释方法<code>#=...=#</code>可以解决这类问题。</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; #= 一行注释
+          另外一行注释
+       =#
+       v = 5</code><code class="nohighlight hljs ansi" style="display:block;">5</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; b = #=在中间插入注释=# 3.2</code><code class="nohighlight hljs ansi" style="display:block;">3.2</code></pre><h2 id="分支"><a class="docs-heading-anchor" href="#分支">分支</a><a id="分支-1"></a><a class="docs-heading-anchor-permalink" href="#分支" title="Permalink"></a></h2><p>条件语句是编程语言的核心。它们提供了在代码中定义分支的途径，并且是迭代编程的基础。使用本地<code>goto</code>进行分支足以模拟编程语言中的任何迭代模型。</p><h3 id="if...else"><a class="docs-heading-anchor" href="#if...else">if...else</a><a id="if...else-1"></a><a class="docs-heading-anchor-permalink" href="#if...else" title="Permalink"></a></h3><p><code>if...else</code>是Julia中最常见的条件执行形式。一个典型的<code>if</code>条件如下所示:</p><pre><code class="language-julia hljs">if &lt;Boolean condition&gt;
+    # do something
+else
+    # do the something else
+end</code></pre><p><code>else</code>部分是可选的。条件必须是布尔值。与布尔值<code>true</code>或<code>false</code>相同的整数不能代替对应的布尔值。</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; if 1
+           println(&quot;Integer is good for Bool&quot;)
+       end</code><code class="nohighlight hljs ansi" style="display:block;">ERROR: TypeError: non-boolean (Int64) used in boolean context</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; if Bool(1)
+           println(&quot;Bool now&quot;)
+       end</code><code class="nohighlight hljs ansi" style="display:block;">Bool now</code></pre><p><code>if</code>表达式返回被执行分支的值。</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; i = 1</code><code class="nohighlight hljs ansi" style="display:block;">1</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; str = if i &gt; 1
+           &quot;Greater&quot;
+       else
+           &quot;Less&quot;
+       end</code><code class="nohighlight hljs ansi" style="display:block;">&quot;Less&quot;</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; str</code><code class="nohighlight hljs ansi" style="display:block;">&quot;Less&quot;</code></pre><p>同样的表达式也可以用三元运算符<code>?</code>和<code>:</code></p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; str = i &gt; 1 ? &quot;Greater&quot; : &quot;Less&quot;</code><code class="nohighlight hljs ansi" style="display:block;">&quot;Less&quot;</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; str</code><code class="nohighlight hljs ansi" style="display:block;">&quot;Less&quot;</code></pre><p>虽然在大多数表达式中可以不使用空格，但在<code>?</code>和<code>:</code>两侧的空格则是必须的。</p><pre><code class="language-julia-repl hljs">julia&gt; str = i &gt; 1? &quot;Greater&quot; : &quot;Less&quot;
+ERROR: syntax: space required before &quot;?&quot; operator
+
+julia&gt; str = i &gt; 1 ? &quot;Greater&quot;: &quot;Less&quot;
+ERROR: syntax: space required before colon in &quot;?&quot; expression</code></pre><p>当遇到多重分支操作时，可使用<code>if...elseif...else</code>结构。</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; val = 3</code><code class="nohighlight hljs ansi" style="display:block;">3</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; if val == 1
+           &quot;one&quot;
+       elseif val == 2
+           &quot;two&quot;
+       elseif val == 3
+           &quot;three&quot;
+       elseif val == 4
+           &quot;four&quot;
+       else
+           &quot;unknown&quot;
+       end</code><code class="nohighlight hljs ansi" style="display:block;">&quot;three&quot;</code></pre><h3 id="非结构分支"><a class="docs-heading-anchor" href="#非结构分支">非结构分支</a><a id="非结构分支-1"></a><a class="docs-heading-anchor-permalink" href="#非结构分支" title="Permalink"></a></h3><p>诸如<code>if...elseif...else</code>的结构分支，是编程语言中条件执行的最优选择。然而，一些语言具有<code>goto</code>语句来将执行分支跳转到代码中的特定位置。Julia也使用宏<code>@goto</code>和<code>@label</code>提供了这样的功能。它们有以下限制:</p><ol><li><p>它们被限制在特定的代码块中。<code>@goto</code>可以在同一代码块中使用<code>@label</code>。</p></li><li><p>它们不能跨函数使用。</p></li><li><p>它们会影响代码的可读性。因此，通常在大多数结构化编程语言中不使用。</p></li></ol><p>Julia具有结构化分支和迭代，因此完全可以不使用非结构化分支。下面的代码仅是使用<code>@goto</code>和<code>@label</code>来对从1到10的连续数进行求和的示例:</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; begin
+           s = 0
+           n = 10
+           @label loop
+           s = s + n
+           n = n - 1
+           if n &gt; 0
+               @goto loop
+           end
+           s
+       end</code><code class="nohighlight hljs ansi" style="display:block;">55</code></pre><p>显然，对于序列求和，迭代要比非结构化分支简单得多。</p><h2 id="迭代"><a class="docs-heading-anchor" href="#迭代">迭代</a><a id="迭代-1"></a><a class="docs-heading-anchor-permalink" href="#迭代" title="Permalink"></a></h2><p>虽然我们可以使用非结构化分支<code>goto</code>实现代码的迭代执行，但作为一种高级语言，Julia提供了迭代执行的特定语言结构。最常见的是<code>for</code>和<code>while</code>。</p><h3 id="for"><a class="docs-heading-anchor" href="#for"><code>for</code></a><a id="for-1"></a><a class="docs-heading-anchor-permalink" href="#for" title="Permalink"></a></h3><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; s = 0;</code><code class="nohighlight hljs ansi" style="display:block;"></code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; for i = 1:10
+           s = s + i
+       end</code><code class="nohighlight hljs ansi" style="display:block;"></code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; s</code><code class="nohighlight hljs ansi" style="display:block;">55</code></pre><p>在上面的代码片段中，我们从1枚举到10，并将值累加到<code>s</code>。在<code>for</code>循环中，我们将一个步长为<code>1</code>的范围对象<code>1:10</code>赋给参数<code>i</code>。该对象也可以写成<code>1:1:10</code>，表示<code>&lt;初始值&gt;:&lt;步长&gt;:&lt;最终值&gt;</code>。现在，我们修改代码，使其只对奇数进行累加。</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; s = 0;</code><code class="nohighlight hljs ansi" style="display:block;"></code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; for i = 1:2:10
+           println(i)
+           s = s + i
+       end</code><code class="nohighlight hljs ansi" style="display:block;">1
+3
+5
+7
+9</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; s</code><code class="nohighlight hljs ansi" style="display:block;">25</code></pre><p>可以看出，将范围对象的步长更改为<code>2</code>就可以达到预期的结果。</p><h4 id="continue和break"><a class="docs-heading-anchor" href="#continue和break"><code>continue</code>和<code>break</code></a><a id="continue和break-1"></a><a class="docs-heading-anchor-permalink" href="#continue和break" title="Permalink"></a></h4><p>让我们在求和时忽略所有能被3整除的数。</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; s = 0;</code><code class="nohighlight hljs ansi" style="display:block;"></code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; for i = 1:10
+           if i % 3 == 0
+               continue
+           end
+           println(i)
+           s = s + i
+       end</code><code class="nohighlight hljs ansi" style="display:block;">1
+2
+4
+5
+7
+8
+10</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; s</code><code class="nohighlight hljs ansi" style="display:block;">37</code></pre><p>在这种情况下，<code>continue</code>用于跳过所有能被3整除的数。<code>continue</code>确保在迭代器仍处于活动状态时，表达式后面的代码块被排除在计算之外，而在代码中使用<code>break</code>将终止循环。</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; s = 0;</code><code class="nohighlight hljs ansi" style="display:block;"></code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; for i = 1:10
+           if i % 3 == 0
+               break
+           end
+           println(i)
+           s = s + i
+       end</code><code class="nohighlight hljs ansi" style="display:block;">1
+2</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; s</code><code class="nohighlight hljs ansi" style="display:block;">3</code></pre><h4 id="for...in"><a class="docs-heading-anchor" href="#for...in"><code>for...in</code></a><a id="for...in-1"></a><a class="docs-heading-anchor-permalink" href="#for...in" title="Permalink"></a></h4><p>除了范围对象，<code>for</code>也可以与其他具有迭代器功能的序列对象一起使用。我们将在后面详细讨论迭代器接口。下面是一个<code>for...in</code>语法的代码片段。</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; for i in [5,10,15]
+           println(i)
+       end</code><code class="nohighlight hljs ansi" style="display:block;">5
+10
+15</code></pre><h4 id="多范围对象"><a class="docs-heading-anchor" href="#多范围对象">多范围对象</a><a id="多范围对象-1"></a><a class="docs-heading-anchor-permalink" href="#多范围对象" title="Permalink"></a></h4><p>一个<code>for</code>循环可以遍历多个范围对象。效果是在由左侧指定外层循环的范围的笛卡尔积上迭代。</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; for i=1:3, j=1:2
+           println((i,j))
+       end</code><code class="nohighlight hljs ansi" style="display:block;">(1, 1)
+(1, 2)
+(2, 1)
+(2, 2)
+(3, 1)
+(3, 2)</code></pre><p>内部范围也可以受外部范围值的影响。</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; for i=1:3, j=1:i
+           println((i, j))
+       end</code><code class="nohighlight hljs ansi" style="display:block;">(1, 1)
+(2, 1)
+(2, 2)
+(3, 1)
+(3, 2)
+(3, 3)</code></pre><p>这里的<code>for</code>循环是一个单独的循环，<code>break</code>语句可以完全终止它，这与嵌套的<code>for</code>循环只终止内部循环不同。</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; for i=1:3, j=1:2
+           println((i, j))
+           if i == j
+               break
+           end
+       end</code><code class="nohighlight hljs ansi" style="display:block;">(1, 1)</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; for i=1:3
+           for j=1:2
+               println((i, j))
+               if i == j
+                   break
+               end
+           end
+       end</code><code class="nohighlight hljs ansi" style="display:block;">(1, 1)
+(2, 1)
+(2, 2)
+(3, 1)
+(3, 2)</code></pre><h3 id="while"><a class="docs-heading-anchor" href="#while"><code>while</code></a><a id="while-1"></a><a class="docs-heading-anchor-permalink" href="#while" title="Permalink"></a></h3><p>在Julia中，<code>for</code>用于迭代器和范围对象。<code>while</code>则更灵活，可以在任何条件下发挥作用。只要条件为真，循环就会继续执行。下面是一般语法。</p><pre><code class="language-julia hljs">while &lt;Boolean_condition is true&gt;
+    &lt;loop&gt;
+end</code></pre><p>现在，如果我们考虑相同的1-10的加法例子，那么代码将如下所示:</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; s, n = 0, 10;</code><code class="nohighlight hljs ansi" style="display:block;"></code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; while n &gt; 0
+           s = s + n
+           n = n - 1
+       end</code><code class="nohighlight hljs ansi" style="display:block;"></code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; s</code><code class="nohighlight hljs ansi" style="display:block;">55</code></pre><p>与<code>for</code>循环类似，可以分别通过<code>continue</code>和<code>break</code>来跳过或终止执行。</p><p><code>while</code>循环重复计算起始处的条件，如果结果为<code>true</code>，则执行循环。在某些情况下，存在不管条件如何，都需要至少执行一次的循环，并在循环结束时计算新的条件来判断是否继续执行循环。这相当于其他语言中的<code>do...while</code>循环。Julia目前没有这个构造。但实现这个语义逻辑却很简单。</p><pre><code class="language-julia-repl hljs">julia&gt; println(&quot;press q &lt;enter&gt; to end loop&quot;)
+press q &lt;enter&gt; to end loop
+
+julia&gt; while true
+           ch = readline()
+           ch == &quot;q&quot; &amp;&amp; break
+       end
+a
+q</code></pre><h2 id="异常处理"><a class="docs-heading-anchor" href="#异常处理">异常处理</a><a id="异常处理-1"></a><a class="docs-heading-anchor-permalink" href="#异常处理" title="Permalink"></a></h2><p>当程序出现异常时，执行的函数可能无法返回一个有效值或使程序处于可恢复状态。有些程序可能会报告错误并终止执行。然而，在报告异常情况的同时，使程序恢复状态是非常有益的。其次，恢复的状态一定在函数调用的多个深度的调用堆栈中。因此，异常可能导致控制流移动到调用堆栈中的另一个函数，而不仅仅是调用方的地址空间。</p><h3 id="try...catch"><a class="docs-heading-anchor" href="#try...catch"><code>try...catch</code></a><a id="try...catch-1"></a><a class="docs-heading-anchor-permalink" href="#try...catch" title="Permalink"></a></h3><p>将预期具有异常条件的代码放置在<code>try</code>之后。异常处理代码添加到<code>catch</code>之后的部分。<code>end</code>表达式结束<code>try</code>块。</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; try
+           sqrt(-1)
+       catch e
+           println(e)
+       end</code><code class="nohighlight hljs ansi" style="display:block;">DomainError(-1.0, &quot;sqrt will only return a complex result if called with a complex argument. Try sqrt(Complex(x)).&quot;)</code></pre><p>没有<code>try...catch</code>块的代码将在REPL中报告以下内容:</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; sqrt(-1)</code><code class="nohighlight hljs ansi" style="display:block;">ERROR: DomainError with -1.0:
+sqrt will only return a complex result if called with a complex argument. Try sqrt(Complex(x)).</code></pre><p>可以看到，REPL提供了默认的<code>try...catch</code>实现，它接受<strong>DomainError</strong>异常并打印一个带有堆栈跟踪的错误。Julia有相当多的标准异常，如<strong>ErrorException</strong>、<strong>DomainError</strong>、<strong>ArgumentError</strong>、<strong>BoundsError</strong>等。所有错误都派生自抽象类型<code>Exception</code>。</p><h3 id="throw/rethrow"><a class="docs-heading-anchor" href="#throw/rethrow"><code>throw/rethrow</code></a><a id="throw/rethrow-1"></a><a class="docs-heading-anchor-permalink" href="#throw/rethrow" title="Permalink"></a></h3><p>虽然<code>catch</code>提供了捕获异常并对异常采取操作的选项，但人们可以利用<code>rethrow</code>函数使异常进一步传播，而不是处理它。打印的错误信息是REPL默认的错误处理方法。</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; try
+           sqrt(-1)
+       catch e
+           rethrow()
+       end</code><code class="nohighlight hljs ansi" style="display:block;">ERROR: DomainError with -1.0:
+sqrt will only return a complex result if called with a complex argument. Try sqrt(Complex(x)).</code></pre><p>当出现一些意外的条件时，还可以抛出自定义异常。抛出的对象不一定总是<code>Exception</code>类型。它可以是任何对象。下面给出了一个抛出整数的例子:</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; try
+           throw(1)
+       catch e
+           println((e,typeof(e)))
+       end</code><code class="nohighlight hljs ansi" style="display:block;">(1, Int64)</code></pre><p>异常用于管理异常条件。如果行为只是代码流中的常规条件的表示，应使用其他控制流如<code>if...else</code>。其次，异常会增加大量的执行开销。因此，只有在需要时才有选择地使用它们。</p><h3 id="finally"><a class="docs-heading-anchor" href="#finally"><code>finally</code></a><a id="finally-1"></a><a class="docs-heading-anchor-permalink" href="#finally" title="Permalink"></a></h3><p>当资源正在使用时，异常情况可能会迫使函数突然退出执行，这种情况下的资源无法回收。<code>finally</code>子句代码在正常和异常条件下都会被执行，确保资源被回收。在下面的示例中，即使出现异常，文件句柄<code>f</code>也会关闭。</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; f = open(&quot;/etc/hosts&quot;)</code><code class="nohighlight hljs ansi" style="display:block;">IOStream(&lt;file /etc/hosts&gt;)</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; isopen(f)</code><code class="nohighlight hljs ansi" style="display:block;">true</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; try
+           b = write(f,&quot;abc&quot;)
+       catch e
+           println(e)
+       finally
+           close(f)
+       end</code><code class="nohighlight hljs ansi" style="display:block;">ArgumentError(&quot;write failed, IOStream is not writeable&quot;)</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; isopen(f)</code><code class="nohighlight hljs ansi" style="display:block;">false</code></pre><h3 id="异常的信息"><a class="docs-heading-anchor" href="#异常的信息">异常的信息</a><a id="异常的信息-1"></a><a class="docs-heading-anchor-permalink" href="#异常的信息" title="Permalink"></a></h3><p>因为每次堆栈展开时都需要验证异常对象，因此它们会影响执行速度。那么，如此复杂架构的异常对象为程序添加了什么价值？它们提供的主要优势之一是能够跟踪异常发生的堆栈。因此，可以得到错误的传播轨迹。其次，异常对象的形式提供了关于了解错误足够信息的能力。</p><pre><code class="language-julia-repl hljs">julia&gt; sqrt(-1)
+ERROR: DomainError with -1.0:
+sqrt will only return a complex result if called with a complex argument. Try sqrt(Complex(x)).
+Stacktrace:
+ [1] sqrt
+   @ ./math.jl:582 [inlined]
+ [2] sqrt(x::Int64)
+   @ Base.Math ./math.jl:608
+ [3] top-level scope
+   @ REPL[73]:1</code></pre><p>DomainError有两个属性。<code>val</code>属性表示导致错误的值，<code>msg</code>属性详细描述消息细节。你可以通过创建<code>Exception</code>抽象类型的子类型来定义自己的异常。</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; struct MyException &lt;: Exception
+           params1
+           params2
+           # ...
+           paramsn
+       end</code><code class="nohighlight hljs ansi" style="display:block;"></code></pre><h3 id="堆栈跟踪"><a class="docs-heading-anchor" href="#堆栈跟踪">堆栈跟踪</a><a id="堆栈跟踪-1"></a><a class="docs-heading-anchor-permalink" href="#堆栈跟踪" title="Permalink"></a></h3><p>堆栈跟踪是从异常处理中获得的一组非常重要的信息。函数<code>catch_backtrace()</code>在抛出异常时报告堆栈跟踪，而<code>stacktrace()</code>函数提供了对前面函数返回结果的解释。</p><pre><code class="language-julia-repl hljs">julia&gt; try
+           sqrt(-1)
+       catch e
+           stacktrace(catch_backtrace())
+       end
+3-element Vector{Base.StackTraces.StackFrame}:
+ sqrt at math.jl:582 [inlined]
+ sqrt(x::Int64) at math.jl:608
+ top-level scope at REPL[76]:2</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../ch02dadatypes/">« 数据类型</a><a class="docs-footer-nextpage" href="../ch04function/">函数和方法 »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.10 on <span class="colophon-date" title="Tuesday 16 November 2021 16:50">Tuesday 16 November 2021</span>. Using Julia version 1.6.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
