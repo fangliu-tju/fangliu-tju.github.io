@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="cn"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>文件 · Julia程序设计基础</title><script data-outdated-warner src="../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.039/juliamono-regular.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.11/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><a class="docs-logo" href="../"><img src="../assets/logo.png" alt="Julia程序设计基础 logo"/></a><div class="docs-package-name"><span class="docs-autofit"><a href="../">Julia程序设计基础</a></span></div><form class="docs-search" action="../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../">安装与配置</a></li><li><a class="tocitem" href="../ch02dadatypes/">数据类型</a></li><li><a class="tocitem" href="../ch03controlflows/">控制流</a></li><li><a class="tocitem" href="../ch04function/">函数和方法</a></li><li><a class="tocitem" href="../ch05scope/">变量的作用域</a></li><li><a class="tocitem" href="../ch06datacollection/">数据集</a></li><li><a class="tocitem" href="../ch07array/">数组</a></li><li><a class="tocitem" href="../ch08string/">字符串</a></li><li><a class="tocitem" href="../ch09metaprograme/">元编程</a></li><li class="is-active"><a class="tocitem" href>文件</a><ul class="internal"><li><a class="tocitem" href="#持久化"><span>持久化</span></a></li><li><a class="tocitem" href="#读和写"><span>读和写</span></a></li><li><a class="tocitem" href="#格式"><span>格式</span></a></li><li><a class="tocitem" href="#文件名和路径"><span>文件名和路径</span></a></li><li><a class="tocitem" href="#捕捉异常"><span>捕捉异常</span></a></li><li><a class="tocitem" href="#带分隔符的文件"><span>带分隔符的文件</span></a></li><li><a class="tocitem" href="#TOML"><span>TOML</span></a></li><li><a class="tocitem" href="#数据库"><span>数据库</span></a></li><li><a class="tocitem" href="#序列化"><span>序列化</span></a></li><li><a class="tocitem" href="#命令对象"><span>命令对象</span></a></li><li><a class="tocitem" href="#模块"><span>模块</span></a></li><li><a class="tocitem" href="#调试"><span>调试</span></a></li><li><a class="tocitem" href="#术语"><span>术语</span></a></li><li><a class="tocitem" href="#习题"><span>习题</span></a></li></ul></li><li><a class="tocitem" href="../ch11guidelines/">编程风格</a></li><li><a class="tocitem" href="../ch12performance/">性能</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>文件</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>文件</a></li></ul></nav><div class="docs-right"><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="文件"><a class="docs-heading-anchor" href="#文件">文件</a><a id="文件-1"></a><a class="docs-heading-anchor-permalink" href="#文件" title="Permalink"></a></h1><p>本章介绍将数据保存到永久存储设备中的概念，并展示如何使用诸如文件和数据库等不同种类的永久存储设备。</p><hr/><h2 id="持久化"><a class="docs-heading-anchor" href="#持久化">持久化</a><a id="持久化-1"></a><a class="docs-heading-anchor-permalink" href="#持久化" title="Permalink"></a></h2><p>目前我们见到的大部分程序在某种程度上都是临时的，因为它们只运行一小段时间，产生一些输出，当程序结束时，数据也随之消失。如果再次运行程序，它将以全新的状态开始。</p><p>另一类程序是<em>持久的</em>：它们长时间运行（或者一直运行）；它们至少将部分数据保存到永久设备（例如硬盘）中；如果关机后再次重启，它们会从上次结束的地方继续运行。</p><p>持久程序的例子是各种操作系统，当计算机启动时它们就会一直运行；网络服务程序也是一个实例，它们持续运行，等待来自于互联网的各种请求。</p><p>程序维护数据的一个最简单的方法是读写<em>文本文件</em>。我们已经见过程序读取文本文件；本章我们会看到程序写入文本文件。</p><p>另外一个选择是将程序状态保存到数据库中，本章我也会演示如何使用一个简单的数据库。</p><hr/><h2 id="读和写"><a class="docs-heading-anchor" href="#读和写">读和写</a><a id="读和写-1"></a><a class="docs-heading-anchor-permalink" href="#读和写" title="Permalink"></a></h2><p>文本文件是储存在诸如硬盘、闪存这类永久介质中的一系列字符。我们在9.1节中见过如何打开和读取一个文件。</p><p>要写入一个文件，你必须以模式 <code>&quot;w&quot;</code> 作为第二个参数来打开它：</p><pre><code class="language-julia hljs">julia&gt; fout = open(&quot;output.txt&quot;, &quot;w&quot;)
+IOStream(&lt;file output.txt&gt;)</code></pre><p>如果文件已经存在，以写入模式打开文件会清除所有原始数据来形成一个空文档，因此要特别小心！如果文件不存在，则会新建一个。<code>open</code> 返回一个文件对象，<code>write</code> 函数将数据写入文件。</p><pre><code class="language-julia hljs">julia&gt; line1 = &quot;This here&#39;s the wattle,\n&quot;;
+julia&gt; write(fout, line1)
+24</code></pre><p>返回值是写入文件的字符数。文件对象持续跟踪当前位置，因此当你再次调用 <code>write</code> 时，它在文件的末尾添加新数据。</p><pre><code class="language-julia hljs">julia&gt; line2 = &quot;the emblem of our land.\n&quot;;
+julia&gt; write(fout, line2)
+24</code></pre><p>当写入结束后，你应该将文件关闭。</p><pre><code class="language-julia hljs">julia&gt; close(fout)</code></pre><p>如果你没有关闭文件，它只有在程序结束时才会自动关闭。</p><hr/><h2 id="格式"><a class="docs-heading-anchor" href="#格式">格式</a><a id="格式-1"></a><a class="docs-heading-anchor-permalink" href="#格式" title="Permalink"></a></h2><p>写入的参数必须是一个字符串，因此如果我们想在文件中放入其他值，必须将它们转换成字符串。最简单的方法是使用 <code>string</code> 或字符串插入：</p><pre><code class="language-julia hljs">julia&gt; fout = open(&quot;output.txt&quot;, &quot;w&quot;);
+julia&gt; write(fout, string(150))
+3</code></pre><p>另一个选择是使用 <code>print(ln)</code> 函数家族。</p><pre><code class="language-julia hljs">julia&gt; camels = 42;
+julia&gt; println(fout, &quot;I have spotted $camels camels.&quot;)</code></pre><blockquote><p>一个更强大的选项是使用 <code>@printf</code> 宏，它使用C语言风格来格式化字符串，详细可参考<a href="https://docs.julialang.org/en/v1/stdlib/Printf/">相关文档</a>。</p></blockquote><hr/><h2 id="文件名和路径"><a class="docs-heading-anchor" href="#文件名和路径">文件名和路径</a><a id="文件名和路径-1"></a><a class="docs-heading-anchor-permalink" href="#文件名和路径" title="Permalink"></a></h2><p>文件被组织到<em>目录</em>（也叫做“文件夹”）内。每个运行着的程序都有一个“当前目录”，它是大部分操作的默认目录。例如，当你打开一个文件用于读取时，Julia在当前目录中查找它。</p><p>函数 <code>pwd</code> 返回当前目录的名字：</p><pre><code class="language-julia hljs">julia&gt; cwd = pwd()
+&quot;C:\\Users\\UNAME\\AppData\\Local\\Programs\\Julia\\Julia-1.6.0&quot;</code></pre><p><code>pwd</code> 代表“打印当前工作目录”（print working directory）。本示例的结果展示了Windows平台下Julia的默认当前目录是其安装目录，这里 <code>UNAME</code> 代表你登录Windows的用户名。像 <code>&quot;C:\\Users\\UNAME\\AppData\\Local\\Programs\\Julia\\Julia-1.6.0&quot;</code> 这样标识一个文件或目录的字符串叫做<em>路径</em>。</p><p>一个简单的文件名如 <code>memo.txt</code> 也被认为是一个路径，但由于是相对于当前目录而言的，因此它是一个<em>相对路径</em>。如果当前目录是 <code>C:\\Users\\UNAME\\AppData\\Local\\Programs\\Julia\\Julia-1.6.0</code>，文件名 <code>memo.txt</code> 将会指向 <code>C:\\Users\\UNAME\\AppData\\Local\\Programs\\Julia\\Julia-1.6.0\\memo.txt</code>。</p><p>以盘符（Windows系统）或 <code>/</code>（Linux系统）开始的路径不依赖于当前目录；它叫做一个<em>绝对路径</em>。要返回一个文件的绝对路径，你可以使用 <code>abspath</code>：</p><pre><code class="language-julia hljs">julia&gt; abspath(&quot;memo.txt&quot;)
+&quot;C:\\Users\\UNAME\\AppData\\Local\\Programs\\Julia\\Julia-1.6.0\\memo.txt&quot;</code></pre><p>Julia也提供了其他作用于文件名和路径的函数。例如，<code>ispath</code> 检验是否存在一个文件或目录：</p><pre><code class="language-julia hljs">julia&gt; ispath(&quot;memo.txt&quot;)
+true</code></pre><p>如果存在，<code>isdir</code> 检验它是否为目录：</p><pre><code class="language-julia hljs">julia&gt; isdir(&quot;memo.txt&quot;)
+false
+julia&gt; isdir(&quot;../Julia-1.6.0&quot;)
+true</code></pre><p>相似地，<code>isfile</code> 检验它是否为文件。</p><p><code>readdir</code> 返回一个由给定目录中的文件（和其他目录）组成的数组：</p><pre><code class="language-julia hljs">julia&gt; readdir(cwd)
+3-element Array{String,1}:
+ &quot;memo.txt&quot;
+ &quot;music&quot;
+ &quot;photos&quot;</code></pre><p>为了展示这些函数，下面的例子“遍历”一个目录，打印所有文件的名字，然后对所有目录递归地调用自己。</p><pre><code class="language-julia hljs">function walk(dirname)
+    for name in readdir(dirname)
+        path = joinpath(dirname, name)
+        if isfile(path)
+            println(path)
+        else
+            walk(path)
+        end
+    end
+end</code></pre><p><code>joinpath</code> 接受一个目录和一个文件名，并将它们连接成一个完整的路径。</p><blockquote><p>Julia提供了一个名为 <code>walkdir</code> 的函数（见<a href="https://docs.julialang.org/en/v1/base/file/#Base.Filesystem.walkdir">帮助文档</a>），它与该函数相似但功能更多。作为练习，阅读帮助文档并使用它打印给定目录和它的子目录中的文件。</p></blockquote><hr/><h2 id="捕捉异常"><a class="docs-heading-anchor" href="#捕捉异常">捕捉异常</a><a id="捕捉异常-1"></a><a class="docs-heading-anchor-permalink" href="#捕捉异常" title="Permalink"></a></h2><p>当你试图读写文件时，很多地方可能发生错误。如果试图打开一个不存在的文件，你会得到一个系统错误 <code>SystemError</code>：</p><pre><code class="language-julia hljs">julia&gt; fin = open(&quot;bad_file&quot;)
+ERROR: SystemError: opening file &quot;bad_file&quot;: 没有那个文件或目录</code></pre><p>如果你没有访问一个文件的权限：</p><pre><code class="language-julia hljs">julia&gt; fout = open(&quot;/etc/passwd&quot;, &quot;w&quot;)
+ERROR: SystemError: opening file &quot;/etc/passwd&quot;: 权限不够</code></pre><p>为了避免这些错误，你可以使用诸如 <code>ispath</code> 和 <code>isfile</code> 这类函数，但它会花费大量时间和代码来检查所有的可能。</p><p>更好的办法是在问题出现的时候才去处理，而这正是 <code>try</code> 语句做的事情。它的语法与 <code>if</code> 语句相似：</p><pre><code class="language-julia hljs">try
+    fin = open(&quot;bad_file.txt&quot;)
+catch exc
+    println(&quot;Something went wrong: $exc&quot;)
+end</code></pre><p>Julia开始执行 <code>try</code> 分支。如果一切正常，它会跳过 <code>catch</code> 分支并继续运行。如果发生异常，它会跳出 <code>try</code> 分支转而运行 <code>catch</code> 分支。</p><p>使用 <code>try</code> 语句处理异常叫做<em>捕获</em>一个异常。在这个例子中，异常分支只是打印一条出错信息，这显然没有什么用处。一般来说，捕获到一条异常就给了你一个修补问题的机会：或者尝试重新运行，或者至少可以优雅地结束程序。</p><p>在执行状态改变或者使用如文件一类资源的代码中，通常在代码结束时要进行清理工作（例如关闭文件）。异常可能会使这项工作变得复杂，因为它们有可能使一组代码在正常结束前退出。<code>finally</code> 关键字提供了不管给定代码块如何退出都会执行一些代码的方法：</p><pre><code class="language-julia hljs">f = open(&quot;output.txt&quot;)
+try 
+    line = readline(f)
+    println(line)
+finally
+    close(f)
+end</code></pre><p>函数 <code>close</code> 总会被执行。</p><hr/><h2 id="带分隔符的文件"><a class="docs-heading-anchor" href="#带分隔符的文件">带分隔符的文件</a><a id="带分隔符的文件-1"></a><a class="docs-heading-anchor-permalink" href="#带分隔符的文件" title="Permalink"></a></h2><p>如果需要读写一个矩阵，可使用带分割符的文件，下面给出一些例子：</p><pre><code class="language-julia hljs">julia&gt; using DelimitedFiles
+
+julia&gt; x = [1;2;3;4];
+
+julia&gt; y = [5;6;7;8];
+
+julia&gt; open(&quot;delim_file.txt&quot;,&quot;w&quot;) do io
+           writedlm(io, [x y])
+       end
+
+julia&gt; readdlm(&quot;delim_file.txt&quot;,&#39;\t&#39;, Int, &#39;\n&#39;)
+4×2 Matrix{Int64}:
+ 1  5
+ 2  6
+ 3  7
+ 4  8
+
+julia&gt; rm(&quot;delim_file.txt&quot;)</code></pre><p><code>readdlm</code>中第一个参数为要读入的文件；第二个参数为矩阵的分隔符，如果省略则表示分隔符是一个或多个空格；第三个参数是矩阵元素的类型，如果省略，则当所有数据都是数字时，结果将是一个数字数组，如果某些元素不能被解析为数字，则返回由数字和字符串组成的异构数组；第四个参数标识一行结束的分隔符，如果省略则表示为<code>\n</code>。</p><p>下面给出一个省略第二到第四各参数的例子：</p><pre><code class="language-julia hljs">julia&gt; x = [1;2;3;4];
+
+julia&gt; y = [&quot;a&quot;;&quot;b&quot;;&quot;c&quot;;&quot;d&quot;];
+
+julia&gt; open(&quot;delim_file.txt&quot;,&quot;w&quot;) do io
+           writedlm(io, [x y])
+       end
+
+julia&gt; readdlm(&quot;delim_file.txt&quot;)
+4×2 Matrix{Any}:
+ 1  &quot;a&quot;
+ 2  &quot;b&quot;
+ 3  &quot;c&quot;
+ 4  &quot;d&quot;
+
+julia&gt; rm(&quot;delim_file.txt&quot;)</code></pre><p>上面两个例子同时给出了使用<code>writedlm</code>向文件中写一个矩阵的例子。</p><hr/><h2 id="TOML"><a class="docs-heading-anchor" href="#TOML">TOML</a><a id="TOML-1"></a><a class="docs-heading-anchor-permalink" href="#TOML" title="Permalink"></a></h2><p>TOML的目标是采用明显的语义使其成为一种易于阅读的最小配置文件格式，其文件后缀为<code>.toml</code>。TOML被设计成无歧义地映射到哈希表。TOML很容易被解析为各种语言中的数据结构。Julia内置了对该数据结构的支持。下面将对该文件的编写规范进行介绍。</p><h3 id="一般规定"><a class="docs-heading-anchor" href="#一般规定">一般规定</a><a id="一般规定-1"></a><a class="docs-heading-anchor-permalink" href="#一般规定" title="Permalink"></a></h3><ul><li><p>TOML是区分大小写的</p></li><li><p>TOML文件必须是有效的UTF-8编码的Unicode文档</p></li><li><p>空白的含义是制表符（0x09）或空格（0x20）</p></li><li><p>新一行的含义是换行（0x0A）或回车换行（0x0D 0x0A）</p></li></ul><h3 id="注释"><a class="docs-heading-anchor" href="#注释">注释</a><a id="注释-1"></a><a class="docs-heading-anchor-permalink" href="#注释" title="Permalink"></a></h3><p>一行中井号以后的部分被标记为注释，但井号在字符串中的情况除外。</p><pre><code class="language-toml hljs"># This is a full-line comment
+key = &quot;value&quot;  # This is a comment at the end of a line
+another = &quot;# This is not a comment&quot;</code></pre><p>注释中不允许出现制表符以外的控制字符（U+0000到U+0008, U+000A到U+001F, U+007F）。</p><h3 id="键/值对"><a class="docs-heading-anchor" href="#键/值对">键/值对</a><a id="键/值对-1"></a><a class="docs-heading-anchor-permalink" href="#键/值对" title="Permalink"></a></h3><p>TOML文档的主要构建块是键/值对。键在等号的左侧，值在右侧。键名和值周围的空白被忽略。键、等号和值必须在同一行上(尽管有些值可以在多行上分开)。</p><pre><code class="language-toml hljs">key = &quot;value&quot;</code></pre><p>值必须是以下类型中的一种：</p><ul><li>String</li><li>Integer</li><li>Float</li><li>Boolean</li><li>Offset Date-Time</li><li>Local Date-Time</li><li>Local Date</li><li>Local Time</li><li>Array</li><li>Inline Table</li></ul><p>值必须被给出。</p><pre><code class="language-toml hljs">key = # INVALID</code></pre><p>每个键/值对都要新起一行(或EOF)。(例外情况参见内联表)</p><pre><code class="language-toml hljs">first = &quot;Tom&quot; last = &quot;Preston-Werner&quot; # INVALID</code></pre><h4 id="键"><a class="docs-heading-anchor" href="#键">键</a><a id="键-1"></a><a class="docs-heading-anchor-permalink" href="#键" title="Permalink"></a></h4><p>键可以不使用引号，也可以使用引号，或点号。<strong>不带引号的键</strong>只能是ASCII字母、ASCII数字、下划线和破折号(A-Za-z0-9_-)。注意，不使用引号的键允许只由ASCII数字组成，例如<code>1234</code>，但总是被解释为字符串。</p><pre><code class="language-toml hljs">key = &quot;value&quot;
+bare_key = &quot;value&quot;
+bare-key = &quot;value&quot;
+1234 = &quot;value&quot;</code></pre><p><strong>带引号的键</strong>与基本字符串或字面字符串遵循完全相同的规则，并允许你使用更广泛的键名集。除非绝对必要，最好使用不带引号的键。</p><pre><code class="language-toml hljs">&quot;127.0.0.1&quot; = &quot;value&quot;
+&quot;character encoding&quot; = &quot;value&quot;
+&quot;ʎǝʞ&quot; = &quot;value&quot;
+&#39;key2&#39; = &quot;value&quot;
+&#39;quoted &quot;value&quot;&#39; = &quot;value&quot;</code></pre><p>不带引号的键必须是非空的，带引号的键可以是空的(但不鼓励这样使用)。</p><pre><code class="language-toml hljs">= &quot;no key name&quot;  # INVALID
+&quot;&quot; = &quot;blank&quot;     # VALID but discouraged
+&#39;&#39; = &#39;blank&#39;     # VALID but discouraged</code></pre><p><strong>点号键</strong>是用点连接的不带引号键或带引号键的序列。这样可以将相似的属性分组在一起:</p><pre><code class="language-toml hljs">name = &quot;Orange&quot;
+physical.color = &quot;orange&quot;
+physical.shape = &quot;round&quot;
+site.&quot;google.com&quot; = true</code></pre><p>有关点号键定义的表的详细信息，请参阅下面的表部分。点分隔部分周围的空白将被忽略。但是，最好不要使用任何多余的空白。</p><pre><code class="language-toml hljs">fruit.name = &quot;banana&quot;     # this is best practice
+fruit. color = &quot;yellow&quot;    # same as fruit.color
+fruit . flavor = &quot;banana&quot;   # same as fruit.flavor</code></pre><p>缩进被视为空白并忽略。多次定义一个键是无效的。</p><pre><code class="language-toml hljs"># DO NOT DO THIS
+name = &quot;Tom&quot;
+name = &quot;Pradyun&quot;</code></pre><p>注意，不带引号的键和带引号的键是等价的:</p><pre><code class="language-toml hljs"># THIS WILL NOT WORK
+spelling = &quot;favorite&quot;
+&quot;spelling&quot; = &quot;favourite&quot;</code></pre><p>只要键还没有被直接定义，你就仍然可以对它和其中的名称进行写入。</p><pre><code class="language-toml hljs"># This makes the key &quot;fruit&quot; into a table.
+fruit.apple.smooth = true
+
+# So then you can add to the table &quot;fruit&quot; like so:
+fruit.orange = 2
+
+# THE FOLLOWING IS INVALID
+
+# This defines the value of fruit.apple to be an integer.
+fruit.apple = 1
+
+# But then this treats fruit.apple like it&#39;s a table.
+# You can&#39;t turn an integer into a table.
+fruit.apple.smooth = true</code></pre><p>不建议无序地定义点号键。</p><pre><code class="language-toml hljs"># VALID BUT DISCOURAGED
+
+apple.type = &quot;fruit&quot;
+orange.type = &quot;fruit&quot;
+
+apple.skin = &quot;thin&quot;
+orange.skin = &quot;thick&quot;
+
+apple.color = &quot;red&quot;
+orange.color = &quot;orange&quot;
+
+# RECOMMENDED
+
+apple.type = &quot;fruit&quot;
+apple.skin = &quot;thin&quot;
+apple.color = &quot;red&quot;
+
+orange.type = &quot;fruit&quot;
+orange.skin = &quot;thick&quot;
+orange.color = &quot;orange&quot;</code></pre><p>由于不带引号的键只能由ASCII整数组成，因此可以编写看起来像浮点数但实际上是由2部分组成的点号键。除非你有很好的理由(你可能没有)，否则不要这样做。</p><pre><code class="language-toml hljs">3.14159 = &quot;pi&quot;</code></pre><h3 id="字符串"><a class="docs-heading-anchor" href="#字符串">字符串</a><a id="字符串-1"></a><a class="docs-heading-anchor-permalink" href="#字符串" title="Permalink"></a></h3><p>有四种表达字符串的方法:基本、多行基本、字面和多行字面。所有字符串只能包含有效的UTF-8字符。</p><p><strong>基本字符串</strong>由引号(<code>&quot;</code>)包围。可以使用任何Unicode字符，但必须转义的字符除外:引号、反斜杠和制表符以外的控制字符(U+0000到U+0008、U+000A到U+001F、U+007F)。</p><pre><code class="language-toml hljs">str = &quot;I&#39;m a string. \&quot;You can quote me\&quot;. Name\tJos\u00E9\nLocation\tSF.&quot;</code></pre><p>为方便起见，一些常用字符具有紧凑的转义序列。</p><pre><code class="language-toml hljs">\b         - backspace       (U+0008)
+\t         - tab             (U+0009)
+\n         - linefeed        (U+000A)
+\f         - form feed       (U+000C)
+\r         - carriage return (U+000D)
+\&quot;         - quote           (U+0022)
+\\         - backslash       (U+005C)
+\uXXXX     - unicode         (U+XXXX)
+\UXXXXXXXX - unicode         (U+XXXXXXXX)</code></pre><p>任何Unicode字符都可以用\uXXXX或\UXXXXXXXX形式转义。转义码必须是有效的Unicode标量值。</p><p>没有在上面列出的所有其他转义序列都是保留的，如果使用它们，TOML会产生一个错误。</p><p>有时你需要表达文本段落(例如翻译文件)或想要将一个很长的字符串分成多行。这在TOML里很简单。</p><p><strong>多行基本字符串</strong>每边被三个引号包围，并允许换行。紧跟在开始分隔符后面的换行符将被裁剪。所有其他空格和换行符保持不变。</p><pre><code class="language-toml hljs">str1 = &quot;&quot;&quot;
+Roses are red
+Violets are blue&quot;&quot;&quot;</code></pre><p>TOML解析器可以自由地将换行符规范化为对其平台有意义的内容。</p><pre><code class="language-toml hljs"># On a Unix system, the above multi-line string will most likely be the same as:
+str2 = &quot;Roses are red\nViolets are blue&quot;
+
+# On a Windows system, it will most likely be equivalent to:
+str3 = &quot;Roses are red\r\nViolets are blue&quot;</code></pre><p>如果要写长字符串而不引入额外的空格，请使用“行结束反斜杠”。当一行中最后一个非空白字符是未转义的<code>\</code>时，它将直到下一个非空白字符或结束分隔符的所有空白字符(包括换行符)一起裁剪掉。对基本字符串有效的所有转义序列对多行基本字符串也有效。</p><pre><code class="language-toml hljs"># The following strings are byte-for-byte equivalent:
+str1 = &quot;The quick brown fox jumps over the lazy dog.&quot;
+
+str2 = &quot;&quot;&quot;
+The quick brown \
+
+
+  fox jumps over \
+    the lazy dog.&quot;&quot;&quot;
+
+str3 = &quot;&quot;&quot;\
+       The quick brown \
+       fox jumps over \
+       the lazy dog.\
+       &quot;&quot;&quot;</code></pre><p>可以使用任何Unicode字符，但必须转义的字符除外:反斜杠和制表符、换行符和回车符以外的控制字符(U+0000到U+0008、U+000B、U+000C、U+000E到U+001F、U+007F)。</p><p>你可以在多行基本字符串的任何位置写入一个引号或两个相邻的引号。它们也可以直接写在分隔符内。</p><pre><code class="language-toml hljs">str4 = &quot;&quot;&quot;Here are two quotation marks: &quot;&quot;. Simple enough.&quot;&quot;&quot;
+# str5 = &quot;&quot;&quot;Here are three quotation marks: &quot;&quot;&quot;.&quot;&quot;&quot;  # INVALID
+str5 = &quot;&quot;&quot;Here are three quotation marks: &quot;&quot;\&quot;.&quot;&quot;&quot;
+str6 = &quot;&quot;&quot;Here are fifteen quotation marks: &quot;&quot;\&quot;&quot;&quot;\&quot;&quot;&quot;\&quot;&quot;&quot;\&quot;&quot;&quot;\&quot;.&quot;&quot;&quot;
+
+# &quot;This,&quot; she said, &quot;is just a pointless statement.&quot;
+str7 = &quot;&quot;&quot;&quot;This,&quot; she said, &quot;is just a pointless statement.&quot;&quot;&quot;&quot;</code></pre><p>如果你经常使用Windows路径或正则表达式的说明符，那么必须每次都转义反斜杠会很乏味且容易出错。为了方便，TOML支持完全不允许转义的字面值字符串。</p><p><strong>字面值字符串</strong>由单引号包围。像基本字符串一样，它们必须在同一行中:</p><pre><code class="language-toml hljs"># What you see is what you get.
+winpath  = &#39;C:\Users\nodejs\templates&#39;
+winpath2 = &#39;\\ServerX\admin$\system32\&#39;
+quoted   = &#39;Tom &quot;Dubs&quot; Preston-Werner&#39;
+regex    = &#39;&lt;\i\c*\s*&gt;&#39;</code></pre><p>因为没有转义，所以没有办法在由单引号括起来的字面值字符串中写单引号。幸运的是，TOML提供的字面值字符串多行版本解决了这个问题。</p><p><strong>多行字面值字符串</strong>在每边由三个单引号包围，并允许换行。就像字面值字符串一样，没有转义。紧跟在开始分隔符后面的换行符将被裁剪。分隔符之间的所有其他内容都按原样解释，无需修改。</p><pre><code class="language-toml hljs">regex2 = &#39;&#39;&#39;I [dw]on&#39;t need \d{2} apples&#39;&#39;&#39;
+lines  = &#39;&#39;&#39;
+The first newline is
+trimmed in raw strings.
+   All other whitespace
+   is preserved.
+&#39;&#39;&#39;</code></pre><p>你可以在多行字面值字符串的任何地方写入1或2个单引号，但三个或更多单引号序列是不允许的。</p><pre><code class="language-toml hljs">quot15 = &#39;&#39;&#39;Here are fifteen quotation marks: &quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&#39;&#39;&#39;
+
+# apos15 = &#39;&#39;&#39;Here are fifteen apostrophes: &#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;  # INVALID
+apos15 = &quot;Here are fifteen apostrophes: &#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&quot;
+
+# &#39;That,&#39; she said, &#39;is still pointless.&#39;
+str = &#39;&#39;&#39;&#39;That,&#39; she said, &#39;is still pointless.&#39;&#39;&#39;&#39;</code></pre><p>字面值字符串中不允许使用制表符以外的控制字符。因此，对于二进制数据，建议使用Base64或其他合适的ASCII或UTF-8编码。该编码的处理将是特定于应用程序的。</p><h3 id="整数"><a class="docs-heading-anchor" href="#整数">整数</a><a id="整数-1"></a><a class="docs-heading-anchor-permalink" href="#整数" title="Permalink"></a></h3><p>正数可以用加号作为前缀。负数前面有一个减号。</p><pre><code class="language-toml hljs">int1 = +99
+int2 = 42
+int3 = 0
+int4 = -17</code></pre><p>对于较大的数字，可以在数字之间使用下划线以增强可读性。每个下划线两边必须至少有一位数字包围。</p><pre><code class="language-toml hljs">int5 = 1_000
+int6 = 5_349_221
+int7 = 53_49_221  # Indian number system grouping
+int8 = 1_2_3_4_5  # VALID but discouraged</code></pre><p>前导零是不允许的。整数值<code>-0</code>和<code>+0</code>是有效的并与不带前缀的零相同。非负整数值也可以用十六进制、八进制或二进制表示。在这些格式中，前导<code>+</code>是不允许的，前导零是允许的(在前缀之后)。十六进制值不区分大小写。数字之间允许有下划线(但前缀和值之间不允许有下划线)。</p><pre><code class="language-toml hljs"># hexadecimal with prefix `0x`
+hex1 = 0xDEADBEEF
+hex2 = 0xdeadbeef
+hex3 = 0xdead_beef
+
+# octal with prefix `0o`
+oct1 = 0o01234567
+oct2 = 0o755 # useful for Unix file permissions
+
+# binary with prefix `0b`
+bin1 = 0b11010110</code></pre><p>任意的64位带符号整数(从−2⁶³到2⁶³ − 1)都可以被接受并无损地处理。如果一个整数不能无损地表示，则会抛出一个错误。</p><h3 id="浮点数"><a class="docs-heading-anchor" href="#浮点数">浮点数</a><a id="浮点数-1"></a><a class="docs-heading-anchor-permalink" href="#浮点数" title="Permalink"></a></h3><p>浮点数被表示为IEEE 754 64位二进制值。浮点数由整数部分(遵循与十进制整数值相同的规则)和小数部分和（或）指数部分组成。如果同时存在小数部分和指数部分，小数部分必须在指数部分之前。</p><pre><code class="language-toml hljs"># fractional
+flt1 = +1.0
+flt2 = 3.1415
+flt3 = -0.01
+
+# exponent
+flt4 = 5e+22
+flt5 = 1e06
+flt6 = -2E-2
+
+# both
+flt7 = 6.626e-34</code></pre><p>小数部分是指小数点后面跟着一个或多个的数字。指数部分是一个E(大写或小写)后跟一个整数部分(它遵循与十进制整数值相同的规则，但可以包含前导零)。如果使用小数点，在每边至少有一个数字包围它。</p><pre><code class="language-toml hljs"># INVALID FLOATS
+invalid_float_1 = .7
+invalid_float_2 = 7.
+invalid_float_3 = 3.e+20</code></pre><p>与整数类似，你可以使用下划线来增强可读性。每个下划线必须至少被一位数字包围。</p><pre><code class="language-toml hljs">flt8 = 224_617.445_991_228</code></pre><p>浮点值<code>-0.0</code>和<code>+0.0</code>是有效的，并根据IEEE 754进行映射。还可以表示特殊的浮点值。它们总是小写的。</p><pre><code class="language-toml hljs"># infinity
+sf1 = inf  # positive infinity
+sf2 = +inf # positive infinity
+sf3 = -inf # negative infinity
+
+# not a number
+sf4 = nan  # actual sNaN/qNaN encoding is implementation-specific
+sf5 = +nan # same as `nan`
+sf6 = -nan # valid, actual encoding is implementation-specific</code></pre><h3 id="布尔值"><a class="docs-heading-anchor" href="#布尔值">布尔值</a><a id="布尔值-1"></a><a class="docs-heading-anchor-permalink" href="#布尔值" title="Permalink"></a></h3><p>布尔值就是你习惯使用的符号并总是小写。</p><pre><code class="language-toml hljs">bool1 = true
+bool2 = false</code></pre><h3 id="带偏移量的日期时间"><a class="docs-heading-anchor" href="#带偏移量的日期时间">带偏移量的日期时间</a><a id="带偏移量的日期时间-1"></a><a class="docs-heading-anchor-permalink" href="#带偏移量的日期时间" title="Permalink"></a></h3><p>要明确地表示一个特定的时间点，可以使用带有偏移量的RFC 3339格式的日期时间。</p><pre><code class="language-toml hljs">odt1 = 1979-05-27T07:32:00Z
+odt2 = 1979-05-27T00:32:00-07:00
+odt3 = 1979-05-27T00:32:00.999999-07:00</code></pre><p>为了可读性起见，可以用空格字符替换日期和时间之间的T分隔符(RFC 3339第5.6节允许这样做)。</p><pre><code class="language-toml hljs">odt4 = 1979-05-27 07:32:00Z</code></pre><p>精度可以达到毫秒。小数秒的进一步精度是特定于实现的。如果值包含的精度大于实现所支持的精度，则必须截断额外的精度，而不是舍入。</p><h3 id="当地日期时间"><a class="docs-heading-anchor" href="#当地日期时间">当地日期时间</a><a id="当地日期时间-1"></a><a class="docs-heading-anchor-permalink" href="#当地日期时间" title="Permalink"></a></h3><p>如果省略RFC 3339格式的日期-时间的偏移量，它将表示给定的日期-时间，与偏移量或时区没有任何关系。如果没有额外的信息，它就不能转换为时间中的一个即时。转换到即时(如果需要的话)是特定于实现的。</p><pre><code class="language-toml hljs">ldt1 = 1979-05-27T07:32:00
+ldt2 = 1979-05-27T00:32:00.999999</code></pre><h3 id="当地日期"><a class="docs-heading-anchor" href="#当地日期">当地日期</a><a id="当地日期-1"></a><a class="docs-heading-anchor-permalink" href="#当地日期" title="Permalink"></a></h3><p>如果只包含RFC 3339格式化日期-时间的日期部分，那么它将表示一个整天，与偏移量或时区没有任何关系。</p><pre><code class="language-toml hljs">ld1 = 1979-05-27</code></pre><h3 id="当地时间"><a class="docs-heading-anchor" href="#当地时间">当地时间</a><a id="当地时间-1"></a><a class="docs-heading-anchor-permalink" href="#当地时间" title="Permalink"></a></h3><p>如果只包含RFC 3339格式化日期-时间的时间部分，它将表示一天中的时间，与特定的日期或任何偏移量或时区没有任何关系。</p><pre><code class="language-toml hljs">lt1 = 07:32:00
+lt2 = 00:32:00.999999</code></pre><h3 id="数组"><a class="docs-heading-anchor" href="#数组">数组</a><a id="数组-1"></a><a class="docs-heading-anchor-permalink" href="#数组" title="Permalink"></a></h3><p>数组是方括号，里面有值。空格将被忽略。元素之间用逗号分隔。数组可以包含键/值对中允许的相同数据类型的值。不同类型的值也可以混合使用。</p><pre><code class="language-toml hljs">integers = [ 1, 2, 3 ]
+colors = [ &quot;red&quot;, &quot;yellow&quot;, &quot;green&quot; ]
+nested_arrays_of_ints = [ [ 1, 2 ], [3, 4, 5] ]
+nested_mixed_array = [ [ 1, 2 ], [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;] ]
+string_array = [ &quot;all&quot;, &#39;strings&#39;, &quot;&quot;&quot;are the same&quot;&quot;&quot;, &#39;&#39;&#39;type&#39;&#39;&#39; ]
+
+# Mixed-type arrays are allowed
+numbers = [ 0.1, 0.2, 0.5, 1, 2, 5 ]
+contributors = [
+  &quot;Foo Bar &lt;foo@example.com&gt;&quot;,
+  { name = &quot;Baz Qux&quot;, email = &quot;bazqux@example.com&quot;, url = &quot;https://example.com/bazqux&quot; }
+]</code></pre><p>数组可以跨多行。允许在数组的最后一个值后面使用结束逗号(也称为尾随逗号)。任意数量的换行符和注释可以出现在值、逗号和右括号之后。数组值和逗号之间的缩进被视为空白并被忽略。</p><pre><code class="language-toml hljs">integers2 = [
+  1, 2, 3
+]
+
+integers3 = [
+  1,
+  2, # this is ok
+]</code></pre><h3 id="表"><a class="docs-heading-anchor" href="#表">表</a><a id="表-1"></a><a class="docs-heading-anchor-permalink" href="#表" title="Permalink"></a></h3><p>表(也称为哈希表或字典)是键/值对的集合。它们由一行中使用方括号包围的头文件定义。你可以很容易地区分头文件和数组，因为数组永远都是值。</p><pre><code class="language-toml hljs">[table]</code></pre><p>在下一个头文件或EOF之前，都是该表的键/值。表中的键/值对不能保证以任何特定的顺序排列。</p><pre><code class="language-toml hljs">[table-1]
+key1 = &quot;some string&quot;
+key2 = 123
+
+[table-2]
+key1 = &quot;another string&quot;
+key2 = 456</code></pre><p>表的命名规则与键的命名规则相同(参见上面的键的定义)。</p><pre><code class="language-toml hljs">[dog.&quot;tater.man&quot;]
+type.name = &quot;pug&quot;</code></pre><p>键周围的空格将被忽略。但是，最佳实践是不要使用任何多余的空格。</p><pre><code class="language-toml hljs">[a.b.c]            # this is best practice
+[ d.e.f ]          # same as [d.e.f]
+[ g .  h  . i ]    # same as [g.h.i]
+[ j . &quot;ʞ&quot; . &#39;l&#39; ]  # same as [j.&quot;ʞ&quot;.&#39;l&#39;]</code></pre><p>缩进被视为空白并被忽略。如果你不想逐一指定所有的上级表，则不需要指定。TOML知道如何为你做到这一点。</p><pre><code class="language-toml hljs"># [x] you
+# [x.y] don&#39;t
+# [x.y.z] need these
+[x.y.z.w] # for this to work
+
+[x] # defining a super-table afterward is ok</code></pre><p>没有键/值对的空表是允许的。与键一样，你不能对表进行多次定义。这样做是无效的。</p><pre><code class="language-toml hljs"># DO NOT DO THIS
+
+[fruit]
+apple = &quot;red&quot;
+
+[fruit]
+orange = &quot;orange&quot;
+
+# DO NOT DO THIS EITHER
+
+[fruit]
+apple = &quot;red&quot;
+
+[fruit.apple]
+texture = &quot;smooth&quot;</code></pre><p>不鼓励无序定义表。</p><pre><code class="language-toml hljs"># VALID BUT DISCOURAGED
+[fruit.apple]
+[animal]
+[fruit.orange]
+
+# RECOMMENDED
+[fruit.apple]
+[fruit.orange]
+[animal]</code></pre><p>最上一级的表，也称为根表，是从文档的开头开始，在第一个表头(或EOF)之前结束。与其他表不同，它是匿名的，不能被重新定位。</p><pre><code class="language-toml hljs"># Top-level table begins.
+name = &quot;Fido&quot;
+breed = &quot;pug&quot;
+
+# Top-level table ends.
+[owner]
+name = &quot;Regina Dogman&quot;
+member_since = 1999-08-04</code></pre><p>点号键为最后一个键之前的每个键创建并定义一个表，前提是这些表以前没有创建过。</p><pre><code class="language-toml hljs">fruit.apple.color = &quot;red&quot;
+# Defines a table named fruit
+# Defines a table named fruit.apple
+
+fruit.apple.taste.sweet = true
+# Defines a table named fruit.apple.taste
+# fruit and fruit.apple were already created</code></pre><p>由于表不能重复定义，所以不允许使用<code>[table]</code>头重新定义这样的表。同样，不允许使用点号键重新定义已经以<code>[table]</code>形式定义的表。然而，<code>[table]</code>形式可以用来在点号键定义的表中定义子表。</p><pre><code class="language-toml hljs">[fruit]
+apple.color = &quot;red&quot;
+apple.taste.sweet = true
+
+# [fruit.apple]  # INVALID
+# [fruit.apple.taste]  # INVALID
+
+[fruit.apple.texture]  # you can add sub-tables
+smooth = true</code></pre><h3 id="内联表"><a class="docs-heading-anchor" href="#内联表">内联表</a><a id="内联表-1"></a><a class="docs-heading-anchor-permalink" href="#内联表" title="Permalink"></a></h3><p>内联表为表示表提供了更紧凑的语法。它们对于分组数据特别有用，否则这些数据很快就会变得冗长。内联表完全在大括号<code>{</code>和<code>}</code>中定义。在大括号内，可能出现零个或多个以逗号分隔的键/值对。键/值对的形式与标准表中的键/值对相同。允许所有值类型，包括内联表。</p><p>内联表应该出现在单行上。在内联表的最后一个键/值对之后不允许使用终止逗号(也称为尾随逗号)。在大括号之间不允许换行，除非换行在值内有效。尽管如此，还是强烈建议不要将内联表拆分为多行。如果你发现的确需要这样做，这意味着你应该使用标准表了。</p><pre><code class="language-toml hljs">name = { first = &quot;Tom&quot;, last = &quot;Preston-Werner&quot; }
+point = { x = 1, y = 2 }
+animal = { type.name = &quot;pug&quot; }</code></pre><p>上面的内联表与下面的标准表定义相同:</p><pre><code class="language-toml hljs">[name]
+first = &quot;Tom&quot;
+last = &quot;Preston-Werner&quot;
+
+[point]
+x = 1
+y = 2
+
+[animal]
+type.name = &quot;pug&quot;</code></pre><p>内联表是完全自包含的，并在其中定义所有键和子表。不能再在大括号之外添加键和子表。</p><pre><code class="language-toml hljs">[product]
+type = { name = &quot;Nail&quot; }
+# type.edible = false  # INVALID</code></pre><p>类似地，内联表也不能用于向已经定义的表添加键或子表。</p><pre><code class="language-toml hljs">[product]
+type.name = &quot;Nail&quot;
+# type = { edible = false }  # INVALID</code></pre><h3 id="表数组"><a class="docs-heading-anchor" href="#表数组">表数组</a><a id="表数组-1"></a><a class="docs-heading-anchor-permalink" href="#表数组" title="Permalink"></a></h3><p>还没有介绍的最后一种语法允许写表数组。这些可以通过使用双括号中带有名称的头来表示。该头文件的第一个实例定义数组及其第一个表元素，每个后续实例在该数组中创建并定义一个新的表元素。表按出现的顺序插入到数组中。</p><pre><code class="language-toml hljs">[[products]]
+name = &quot;Hammer&quot;
+sku = 738594937
+
+[[products]]  # empty table within the array
+
+[[products]]
+name = &quot;Nail&quot;
+sku = 284758393
+
+color = &quot;gray&quot;</code></pre><p>任何对表数组的引用都指向该数组中最近定义的表元素。这允许你在最近的表中定义子表，甚至是子表数组。</p><pre><code class="language-toml hljs">[[fruits]]
+name = &quot;apple&quot;
+
+[fruits.physical]  # subtable
+color = &quot;red&quot;
+shape = &quot;round&quot;
+
+[[fruits.varieties]]  # nested array of tables
+name = &quot;red delicious&quot;
+
+[[fruits.varieties]]
+name = &quot;granny smith&quot;
+
+
+[[fruits]]
+name = &quot;banana&quot;
+
+[[fruits.varieties]]
+name = &quot;plantain&quot;</code></pre><p>如果表或表数组的父元素是数组元素，则必须在定义子元素之前已经定义了该元素。试图颠倒这种顺序会在解析时产生错误。</p><pre><code class="language-toml hljs"># INVALID TOML DOC
+[fruit.physical]  # subtable, but to which parent element should it belong?
+color = &quot;red&quot;
+shape = &quot;round&quot;
+
+[[fruit]]  # parser must throw an error upon discovering that &quot;fruit&quot; is
+           # an array rather than a table
+name = &quot;apple&quot;</code></pre><p>试图添加到静态定义的数组中，即使该数组是空的，也必须在解析时产生错误。</p><pre><code class="language-toml hljs"># INVALID TOML DOC
+fruits = []
+
+[[fruits]] # Not allowed</code></pre><p>试图定义一个与已经建立的数组同名的普通表，在解析时必然产生错误。试图将普通表重定义为数组同样会产生解析时错误。</p><pre><code class="language-toml hljs"># INVALID TOML DOC
+[[fruits]]
+name = &quot;apple&quot;
+
+[[fruits.varieties]]
+name = &quot;red delicious&quot;
+
+# INVALID: This table conflicts with the previous array of tables
+[fruits.varieties]
+name = &quot;granny smith&quot;
+
+[fruits.physical]
+color = &quot;red&quot;
+shape = &quot;round&quot;
+
+# INVALID: This array of tables conflicts with the previous table
+[[fruits.physical]]
+color = &quot;green&quot;</code></pre><p>你也可以在适当的地方使用内联表:</p><pre><code class="language-toml hljs">points = [ { x = 1, y = 2, z = 3 },
+           { x = 7, y = 8, z = 9 },
+           { x = 2, y = 4, z = 8 } ]</code></pre><p>在Julia中使用<code>TOML.parsefile</code>解析输入文件，<code>TOML.print</code>将数据打印成TOML格式。</p><pre><code class="language-julia hljs">julia&gt; using TOML
+
+julia&gt; data = Dict(
+           &quot;names&quot; =&gt; [&quot;Julia&quot;, &quot;Julio&quot;],
+           &quot;age&quot; =&gt; [10, 20]
+       );
+
+julia&gt; fname = tempname();
+
+julia&gt; open(fname, &quot;w&quot;) do io
+           TOML.print(io, data)
+       end
+
+julia&gt; TOML.parsefile(fname)
+Dict{String, Any} with 2 entries:
+  &quot;names&quot; =&gt; [&quot;Julia&quot;, &quot;Julio&quot;]
+  &quot;age&quot;   =&gt; [10, 20]</code></pre><hr/><h2 id="数据库"><a class="docs-heading-anchor" href="#数据库">数据库</a><a id="数据库-1"></a><a class="docs-heading-anchor-permalink" href="#数据库" title="Permalink"></a></h2><p><em>数据库</em>是“按照数据结构来组织、存储和管理数据的仓库（文件）”。Julia为多种数据库提供了接口，方便我们使用和开发。本节以最简单的SQLite数据库为例来介绍在Julia环境下数据库的简单用法。在使用SQLite数据库前，我们要先在电脑中安装它，一般Linux系统都自带了该库，Windows系统需要自己安装，由于安装过程比较简单，请读者参照<a href="https://www.sqlite.org/index.html">官方网站</a>自行安装。有了数据库后，我们还要在Julia中安装相应的模块：</p><pre><code class="language-julia hljs">(@v1.6) pkg&gt; add DataFrames, SQLite</code></pre><p>接下来我们就可以使用相关函数对数据库进行操作了：</p><pre><code class="language-julia hljs">julia&gt; using DataFrames, SQLite
+julia&gt; db = SQLite.DB(&quot;test.db&quot;)
+SQLite.DB(&quot;test.db&quot;)</code></pre><p><code>SQLite.DB</code> 函数用于创建或打开一个sqlite数据库文件，当文件存在时就打开它，否则就创建一个新的数据库文件。变量 <code>db</code> 存储函数返回的数据库对象，我们可以使用该变量对数据库进行各种操作：</p><pre><code class="language-julia hljs">julia&gt; DBInterface.execute(db, &quot;create table test (id integer primary key, value text)&quot;);
+julia&gt; DBInterface.execute(db, &quot;insert into test (id, value) values (101,&#39;eenie&#39;)&quot;);
+julia&gt; DBInterface.execute(db, &quot;insert into test (id, value) values (102,&#39;meenie&#39;)&quot;);
+julia&gt; DBInterface.execute(db, &quot;insert into test (id, value) values (103,&#39;miny&#39;)&quot;);
+julia&gt; DBInterface.execute(db, &quot;insert into test (id, value) values (104,&#39;mo&#39;)&quot;);
+julia&gt; DBInterface.execute(db, &quot;select * from test&quot;) |&gt; DataFrame
+4×2 DataFrame
+│ Row │ id    │ value  │
+│     │ Int64 │ String │
+├─────┼───────┼────────┤
+│ 1   │ 101   │ eenie  │
+│ 2   │ 102   │ meenie │
+│ 3   │ 103   │ miny   │
+│ 4   │ 104   │ mo     │</code></pre><p>这里使用 <code>DBInterface.execute</code> 函数对表格进行了创建、增加条目和查询等操作。由于函数的第二个参数涉及到的SQL语句超出了本书的范围，故不进行深入介绍。</p><hr/><h2 id="序列化"><a class="docs-heading-anchor" href="#序列化">序列化</a><a id="序列化-1"></a><a class="docs-heading-anchor-permalink" href="#序列化" title="Permalink"></a></h2><p>可以想象，我们向数据库中存储字符、数字还是比较容易的，但如果要存储图片或者音、视频，该如果操作？这里我们就要用到序列化的方法。</p><p>函数 <code>serialize</code> 可以将几乎任何类型的对象转换成一个适合于数据库存储的字节数组（一个读写缓存），而 <code>deserialize</code> 可以将字节数组转换回对象：</p><pre><code class="language-julia hljs">julia&gt; using Serialization
+julia&gt; io = IOBuffer();
+julia&gt; t = [1, 2, 3];
+julia&gt; serialize(io, t)
+24
+julia&gt; print(take!(io))
+UInt8[0x37, 0x4a, 0x4c, 0x09, 0x04, 0x00, 0x00, 0x00, 0x15, 0x00, 0x08, 0xe2, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]</code></pre><p>这种结构不适合人们阅读，但对Julia来说却更易于解读。<code>deserialize</code> 重新构建对象：</p><pre><code class="language-julia hljs">julia&gt; io = IOBuffer();
+julia&gt; t1 = [1, 2, 3];
+julia&gt; serialize(io, t1)
+24
+julia&gt; s = take!(io);
+julia&gt; t2 = deserialize(IOBuffer(s));
+julia&gt; print(t2)
+[1, 2, 3]</code></pre><p>上例，<code>serialize</code> 和 <code>deserialize</code> 对代表内存中读写流的一个读写缓存对象进行了写入和读取操作。函数 <code>take!</code> 取出读写缓存中的内容——字节数组并将读写缓存重置为它的初始状态。</p><p>尽管新对象与老对象的值相同，但它们不是（一般来说）同一个对象：</p><pre><code class="language-julia hljs">julia&gt; t1 == t2
+true
+julia&gt; t1 === t2
+false</code></pre><p>换句话说，序列化然后再解序列化的效果与复制对象相同。</p><p>你可以使用这种方法在数据库中存储非字节对象。</p><blockquote><p>实际上，在数据库中存储非字节对象是一个很普遍的现象，Julia将这种功能封装成一个名为 <code>JLD2</code> 的库包。</p></blockquote><p><a href="https://github.com/JuliaIO/JLD2.jl">JLD2</a>是使用<a href="https://www.hdfgroup.org/solutions/hdf5">HDF5</a>格式保存和提取Julia数据结构的一种文件格式，其作用类似于Matlab中的 <code>.mat</code> 文件。操作JLD2文件最简单的方法是使用宏 <code>@save</code> 和 <code>@load</code>。宏 <code>@save</code> 向文件中写入变量：</p><pre><code class="language-julia hljs">julia&gt; using JLD2
+julia&gt; hello = &quot;world&quot;;
+julia&gt; arr = [1, 2, 3];
+julia&gt; @save &quot;file.jld2&quot; hello arr</code></pre><p><code>@save</code> 创建一个新文件 <code>file.jld2</code> 并将变量 <code>hello</code> 和 <code>arr</code> 写入到该文件中。 宏 <code>@load</code> 可以从JLD2文件中将这些变量提取出来：</p><pre><code class="language-julia hljs">@load &quot;file.jld2&quot; hello arr</code></pre><p>这条语句将存储在文件中的变量 <code>hello</code> 和 <code>arr</code> 的内容提取出来并赋给当前作用域内的同名变量。</p><hr/><h2 id="命令对象"><a class="docs-heading-anchor" href="#命令对象">命令对象</a><a id="命令对象-1"></a><a class="docs-heading-anchor-permalink" href="#命令对象" title="Permalink"></a></h2><p>大多数操作系统提供了一个命令行接口，也被称为<em>壳</em>（Windows系统提供了壳和Dos系统下的命令行接口）。壳通常提供用于浏览文件系统和启动应用程序的命令。例如，在Unix系统中可以使用 <code>cd</code> 来改变目录，<code>ls</code> 显示目录中的内容， <code>firefox</code>（只是举例）启动一个网页浏览器。</p><p>在壳中可以启动的任何程序都可以使用<em>命令对象</em>在Julia中启动（本书以Dos命令窗口为例）：</p><pre><code class="language-julia hljs">julia&gt; a = `cmd /c echo hello`
+`cmd /c echo hello`</code></pre><blockquote><p>在Windows系统中， <code>echo</code> 不是一个可执行程序，它只是可执行程序 <code>cmd</code> 中的一项功能，因此在Windows中调用 <code>echo</code> 命令实际上要调用 <code>cmd</code> 命令中的 <code>echo</code> 功能。 </p></blockquote><p><span>$`$</span>所包围的内容是一条系统命令，函数 <code>run</code> 用来执行命令：</p><pre><code class="language-julia hljs">julia&gt; run(a);
+hello</code></pre><p><code>hello</code> 是echo命令的输出结果，被发送到 <code>STDOUT</code>。<code>run</code> 函数本身返回一个进程对象，如果外部命令执行失败则抛出一个 <code>ErrorException</code> 异常。</p><p>如果你想读入外部命令的输出结果，可以使用 <code>read</code> 函数：</p><pre><code class="language-julia hljs">julia&gt; b = read(a, String)
+&quot;hello\r\n&quot;</code></pre><p>举一个例子，大多数Unix系统都提供了一个 <code>md5sum</code> 或 <code>md5</code> 命令用来读取一个文件中的内容并计算出一个“校验和”。Windows默认不具有这个程序，需要从<a href="http://www.fourmilab.ch/md5/">网站</a>下载，本书也提供了<a href="https://gitee.com/tju-liufang/juliabasics/tree/master/scr/md5.exe">该文件</a>。将可执行文件 <code>md5.exe</code> 放入到 <code>%SystemRoot%\system32\</code> 就可以。这条命令为检验两个文件是否有相同的内容提供了一个高效的方法。内容不同而取得相同校验和的概率非常小。</p><p>你可以在Julia中使用命令对象执行 <code>md5</code> 并得到结果：</p><pre><code class="language-julia hljs">julia&gt; filename = &quot;emma.txt&quot;;
+julia&gt; a = `md5 $filename`
+`md5 emma.txt`
+julia&gt; res = read(a, String)
+&quot;670533E523E86AC303F2CF6980A0AF7E  emma.txt\r\n&quot;</code></pre><hr/><h2 id="模块"><a class="docs-heading-anchor" href="#模块">模块</a><a id="模块-1"></a><a class="docs-heading-anchor-permalink" href="#模块" title="Permalink"></a></h2><p>假设一个名为 <code>&quot;wc.jl&quot;</code> 的文件中有如下代码：</p><pre><code class="language-julia hljs">function linecount(filename)
+    count = 0
+    for line in eachline(filename)
+        count += 1
+    end
+    count
+end
+
+print(linecount(&quot;wc.jl&quot;))</code></pre><p>如果你运行这个程序，它读入自己并打印文件的行数，结果是9。你也可以在REPL使用 <code>include</code> 函数：</p><pre><code class="language-julia hljs">julia&gt; include(&quot;wc.jl&quot;)
+9</code></pre><p>Julia引入模块来创建一个单独的变量工作空间，也即一个新的全局作用域。</p><p>模块以关键字 <code>module</code> 开始，<code>end</code> 结束。这样可以避免你自己的顶层定义和别人代码中的名字发生冲突。<code>import</code> 允许控制来自于其他模块的哪些名字是可见的；<code>export</code> 指明你使用的名字中哪些是公有的，即在模块外不需要使用模块名作为前缀就可以使用的。</p><pre><code class="language-julia hljs">module LineCount
+export linecount
+
+function linecount(filename)
+    count = 0
+    for line in eachline(filename)
+        count += 1
+    end
+    count
+end
+end</code></pre><p>模块 <code>LineCount</code> 对象提供了 <code>linecount</code>：</p><pre><code class="language-julia hljs">julia&gt; using LineCount
+ERROR: ArgumentError: Package LineCount not found in current path:</code></pre><p>从报错信息可以看到，模块 <code>LineCount</code> 没有在当前搜索路径上。<code>using</code> 使用 <code>LOAD_PATH</code> 内保存的路径进行搜索，因此我们只需将 <code>LineCount</code> 模块所在的目录添加到 <code>LOAD_PATH</code> 内即可：</p><pre><code class="language-julia hljs">push!(LOAD_PATH, &quot;path to LineCount&quot; )</code></pre><p>再次使用模块：</p><pre><code class="language-julia hljs">julia&gt; using LineCount
+julia&gt; linecount(&quot;LineCount.jl&quot;)
+11</code></pre><p>同样，新增路径只在当前场景内有效，下次启动Julia后如果还要用到该路径，你需要再次手动添加。你也可以将这条语句加到1.3节介绍的 <code>startup.jl</code> 文件中实现自动化。</p><h3 id="习题14-1"><a class="docs-heading-anchor" href="#习题14-1">习题14-1</a><a id="习题14-1-1"></a><a class="docs-heading-anchor-permalink" href="#习题14-1" title="Permalink"></a></h3><p>自己动手实现一下上面介绍的例子。</p><p><strong><a href="https://gitee.com/tju-liufang/juliabasics/tree/master/scr/lineCount.jl">参考答案</a></strong></p><blockquote><p>如果你输入一个已经输入过的模块，Julia什么都不做。即使文件内容有变动，它也不重新读入文件。 如果想重载一个模块，你必须重新启动REPL。软件包 <code>Revise</code> 可解决这个问题，具体使用方法可参考<a href="https://github.com/timholy/Revise.jl">相关文档</a>。</p></blockquote><hr/><h2 id="调试"><a class="docs-heading-anchor" href="#调试">调试</a><a id="调试-1"></a><a class="docs-heading-anchor-permalink" href="#调试" title="Permalink"></a></h2><p>当读写文件时，你可能会遇到空格问题。由于空格、制表符和换行符一般是不可见的，因此这类错误很难调试：</p><pre><code class="language-julia hljs">julia&gt; s = &quot;1 2\t 3\n 4&quot;;
+julia&gt; println(s)
+1 2      3
+ 4
+````
+
+内置函数 `repr` 和 `dump` 可以帮助解决这个问题。它们接受任何对象作为参数，返回一个代表对象的字符串。
+</code></pre><p>julia {.numberLines} julia&gt; repr(s) &quot;\&quot;1 2\t 3\n 4\&quot;&quot; julia&gt; dump(s) String &quot;1 2\t 3\n 4&quot; ```</p><p>这在调试过程中会有所帮助。</p><p>另一个问题是不同操作系统可能使用不同的字符来表示一行的结束。有些系统使用新行符：<code>\n</code>。有些系统使用回车符：<code>\r</code>。有些系统同时使用这两个。如果你在不同的系统中传递文件，这种不一致性会产生问题。</p><p>对于大多数系统，都带有格式转换软件，当然你也可以自己写一个。</p><hr/><h2 id="术语"><a class="docs-heading-anchor" href="#术语">术语</a><a id="术语-1"></a><a class="docs-heading-anchor-permalink" href="#术语" title="Permalink"></a></h2><p>持久 : 指程序持续运行，并且至少将部分数据保存到永久存储设备中。</p><p>文本文件 : 存储在诸如硬盘一类的永久存储设备中的字符串序列。</p><p>目录 : 一个命名的文件集合，也叫做文件夹。</p><p>路径 : 指定一个文件的字符串。</p><p>相对路径 : 从当前目录开始的路径。</p><p>绝对路径 : 从文件系统中的根目录开始的路径。</p><p><code>catch</code> : 使用 <code>try ... catch ... finally</code> 语句防止异常导致程序结束。</p><p>数据库 : 用于存储数据的一种文件。</p><p>壳 : 一个应用程序，允许用户在里面输入命令，然后启动其他程序来执行它们。</p><p>命令对象 : 代表壳命令的一个对象，允许Julia程序执行命令并读取结果。</p><hr/><h2 id="习题"><a class="docs-heading-anchor" href="#习题">习题</a><a id="习题-1"></a><a class="docs-heading-anchor-permalink" href="#习题" title="Permalink"></a></h2><h3 id="习题14-2"><a class="docs-heading-anchor" href="#习题14-2">习题14-2</a><a id="习题14-2-1"></a><a class="docs-heading-anchor-permalink" href="#习题14-2" title="Permalink"></a></h3><p>编写一个名为 <code>sed</code> 的函数，它接受一个模式字符串，一个替换字符串和两个文件作为输入参数；它应该读取第一个文件并将内容写入第二个文件（如果需要就创建一个）。如果在文件中的任何地方出现了模式字符串，则使用替换字符串替换它。</p><p>如果在打开、读取、写入或关闭文件的过程中出现错误，程序应该捕捉到异常，打印一条出错信息并退出。</p><p><strong><a href="https://gitee.com/tju-liufang/juliabasics/tree/master/scr/sed.jl">参考答案</a></strong></p><h3 id="习题14-3"><a class="docs-heading-anchor" href="#习题14-3">习题14-3</a><a id="习题14-3-1"></a><a class="docs-heading-anchor-permalink" href="#习题14-3" title="Permalink"></a></h3><p>如果你已经完成了习题12-3，你会看到创建了一个从排了序的字母字符串映射到可以由这些字母拼写成的单词数组。例如，<code>&quot;opst&quot;</code> 映射到矩阵 <code>[&quot;opts&quot;, &quot;post&quot;, &quot;pots&quot;, &quot;spot&quot;, &quot;stop&quot;, &quot;tops&quot;]</code>。</p><p>写一个模块输入 <code>allanagrams</code>，编写两个新函数：<code>storeanagrams</code> 使用 <code>JLD2</code> 保存变体字典；<code>readanagrams</code> 返回一个单词的变体数组。</p><h3 id="习题14-4"><a class="docs-heading-anchor" href="#习题14-4">习题14-4</a><a id="习题14-4-1"></a><a class="docs-heading-anchor-permalink" href="#习题14-4" title="Permalink"></a></h3><p>在一个大的MP3文件集合中，同一首歌可能有多个拷贝，它们可能存储在不同的目录内或使用不同的文件名。这个练习的目的是找出所有的副本。</p><ol><li><p>写一个程序，递归地搜索一个目录和所有子目录，返回一个给定后缀（如.<em>mp3</em>)所有文件绝对路径的数组。</p></li><li><p>为了识别出副本，你可以使用 <code>md5sum</code> 或 <code>md5</code> 来计算每个文件的“校验和”。如果两个文件的校验和相同，它们的内容很有可能相同。</p></li><li><p>你可以使用Unix命令 <code>diff</code> 进行再次确认，Windows用户需要安装该程序，可到<a href="http://gnuwin32.sourceforge.net/packages/diffutils.htm">相关网站</a>下载，本书也提供了该软件的<a href="https://gitee.com/tju-liufang/juliabasics/tree/master/scr/diffutils-2.8.7-1.exe">安装文件</a>，安装后，记得将可执行文件目录添加到环境变量Path中。</p></li></ol><p><strong><a href="https://gitee.com/tju-liufang/juliabasics/tree/master/scr/findduplicates.jl">参考答案</a></strong></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../ch09metaprograme/">« 元编程</a><a class="docs-footer-nextpage" href="../ch11guidelines/">编程风格 »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.10 on <span class="colophon-date" title="Friday 31 December 2021 10:09">Friday 31 December 2021</span>. Using Julia version 1.7.0.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

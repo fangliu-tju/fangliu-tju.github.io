@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="cn"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>编程风格 · Julia程序设计基础</title><script data-outdated-warner src="../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.039/juliamono-regular.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.11/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><a class="docs-logo" href="../"><img src="../assets/logo.png" alt="Julia程序设计基础 logo"/></a><div class="docs-package-name"><span class="docs-autofit"><a href="../">Julia程序设计基础</a></span></div><form class="docs-search" action="../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../">安装与配置</a></li><li><a class="tocitem" href="../ch02dadatypes/">数据类型</a></li><li><a class="tocitem" href="../ch03controlflows/">控制流</a></li><li><a class="tocitem" href="../ch04function/">函数和方法</a></li><li><a class="tocitem" href="../ch05scope/">变量的作用域</a></li><li><a class="tocitem" href="../ch06datacollection/">数据集</a></li><li><a class="tocitem" href="../ch07array/">数组</a></li><li><a class="tocitem" href="../ch08string/">字符串</a></li><li><a class="tocitem" href="../ch09metaprograme/">元编程</a></li><li><a class="tocitem" href="../ch10file/">文件</a></li><li class="is-active"><a class="tocitem" href>编程风格</a><ul class="internal"><li><a class="tocitem" href="#背景知识"><span>背景知识</span></a></li><li><a class="tocitem" href="#可维护性指南"><span>可维护性指南</span></a></li><li><a class="tocitem" href="#代码风格"><span>代码风格</span></a></li><li><a class="tocitem" href="#函数式编程的原则"><span>函数式编程的原则</span></a></li><li><a class="tocitem" href="#常用模式"><span>常用模式</span></a></li></ul></li><li><a class="tocitem" href="../ch12performance/">性能</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>编程风格</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>编程风格</a></li></ul></nav><div class="docs-right"><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="编程风格"><a class="docs-heading-anchor" href="#编程风格">编程风格</a><a id="编程风格-1"></a><a class="docs-heading-anchor-permalink" href="#编程风格" title="Permalink"></a></h1><p>相较于科学，编程更是一门艺术。大多数程序员都以自己的手艺为傲。他们会在一段时间内掌握一种艺术，并在职业生涯的相当长的一段时间内获得一种编程风格的专业知识。习惯于命令式编程或面向对象编程的人可能会对Julia感到困惑。本章将使我们熟悉这些差别。</p><h2 id="背景知识"><a class="docs-heading-anchor" href="#背景知识">背景知识</a><a id="背景知识-1"></a><a class="docs-heading-anchor-permalink" href="#背景知识" title="Permalink"></a></h2><p>Julia有很多类似于Lisp的特性。同时，它也有足够的结构用于命令式编程风格。虽然计算机程序员更喜欢命令式的编码风格，但数学家和研究人员更喜欢函数式编程，因为它可以轻松地将程序表示为数学函数。我们将在后面深入研究其中的差异。</p><p>形成代码编写的一般指南和风格，有助于维护代码库。一个可能的例子是编码标准、函数约定和变量命名。与Python等语言不同，Julia在语法上不依赖于空格位置。这意味着一个人可以很容易地写出其他程序员很难读懂的代码。Julia社区在将代码签入到Julia GitHub库时遵循严格的建议或实践。大多数Julia程序员倾向于在他们的代码中接受并遵循它。我们将在介绍为可维护性编写代码时讨论其中的一些方面。</p><h2 id="可维护性指南"><a class="docs-heading-anchor" href="#可维护性指南">可维护性指南</a><a id="可维护性指南-1"></a><a class="docs-heading-anchor-permalink" href="#可维护性指南" title="Permalink"></a></h2><p>软件行业的经典需求分类之一是FURPS：</p><ol><li>功能（Functionality）</li><li>实用（Uasbility）</li><li>可靠（Reliability）</li><li>性能（Performance）</li><li>支持（Supportability）</li></ol><p>支持在这里尤其重要，因为良好的支持要求代码可读。编码约定为大规模的开发人员搭建桥梁。Julia文档给出了样式指南。</p><ul><li><p>使用函数：基于REPL的语言很容易被误认为是脚本语言。动态类型，所有代码都在一个全局作用域(<code>Main</code>模块)中编写，使该语言具有脚本语言的味道。然而，使用适当的函数可以使代码具有可维护性；此外，由于函数可以以类型安全的方式编写，因此可以更好地优化它们。</p></li><li><p>代码必须是泛化的，而不是类型特定的：这个概念可以很容易地用下面的代码来解释：</p></li></ul><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; addone(x) = x + one(x);</code><code class="nohighlight hljs ansi" style="display:block;"></code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; addone(5), addone(5.0), addone(5f0)</code><code class="nohighlight hljs ansi" style="display:block;">(6, 6.0, 6.0f0)</code></pre><p>Julia有许多类似<code>one()</code>和<code>zero()</code>的方法，它们使用运算数的类型，并明智地提供不需要在计算中显式提升类型的值。同样的原则也可以应用到你的代码中，使其易于扩展。</p><ul><li>如果必要则保持函数范围狭窄：当函数参数需要特定类型时，必须指定该类型。这确保运行时错误不会进一步传播，并且不需要额外的断言。</li></ul><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; calc1() = 2, 1</code><code class="nohighlight hljs ansi" style="display:block;">calc1 (generic function with 1 method)</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; calc2() = 1.1, 1.2</code><code class="nohighlight hljs ansi" style="display:block;">calc2 (generic function with 1 method)</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; myvalidate(x::Int, y::Int) = x == y</code><code class="nohighlight hljs ansi" style="display:block;">myvalidate (generic function with 1 method)</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; myvalidate(calc1()...)</code><code class="nohighlight hljs ansi" style="display:block;">false</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; myvalidate(calc2()...)</code><code class="nohighlight hljs ansi" style="display:block;">ERROR: MethodError: no method matching myvalidate(::Float64, ::Float64)</code></pre><p><code>calc1()</code>是正确的类型，<code>calc2()</code>是错误的，<code>myvalidate()</code>确保错误是本地化的。其次，如果需要，任何显式的类型转换都必须由调用方而不是被调用方执行。</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; function myvalidate2(x, y)
+           xi, yi = Int(x), Int(y)
+           return xi == yi
+       end</code><code class="nohighlight hljs ansi" style="display:block;">myvalidate2 (generic function with 1 method)</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; myvalidate2(2, 3.0) # Not good style</code><code class="nohighlight hljs ansi" style="display:block;">false</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; myvalidate(2, Int(3.0)) # Better style</code><code class="nohighlight hljs ansi" style="display:block;">false</code></pre><ul><li>在修改参数的函数后面附加感叹号(<code>!</code>)：当参数值被修改时，函数名应该有一个明确的感叹号指示符。这一点将在后面几节中进一步阐明。</li></ul><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; function double!(v::Vector)
+           for i=firstindex(v):lastindex(v)
+               v[i] *= 2
+           end
+           return v
+       end</code><code class="nohighlight hljs ansi" style="display:block;">double! (generic function with 1 method)</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; double!([1,2,3])</code><code class="nohighlight hljs ansi" style="display:block;">3-element Vector{Int64}:
+ 2
+ 4
+ 6</code></pre><ul><li><p>避免复杂的数据类型：特别是与集一起使用的数据类型必须保持简单。<code>Vector{Union{Int, Float, Function, MyType}}</code>最好指定为<code>Vector{Any}</code>。对于编译器来说，拥有更简单的类型可能会更高效。类似地，<code>Union{Function, AbstractString}</code>在代码中可能不是适合的设计选择。</p></li><li><p>命名约定：Julia编码人员习惯某些命名约定。下面是一些例子：</p><ul><li><p>类型以大写字母开头，可以是驼峰形式：<code>MyType</code>，<code>AbstractArray{T}</code>，等等。</p></li><li><p>模块名称遵循与常规类型相同的约定。</p></li><li><p>函数必须全部小写。</p><ul><li><p>带有合并单词的简单谓词：<code>beginwith</code>，<code>isequal</code>，<code>haskey</code>等。</p></li><li><p>较长的名称，特别是多用途函数，用下划线(<code>_</code>)分隔：<code>remotecall_fetch()</code>。</p></li></ul></li><li><p>全局常数或环境变量全部大写：ENV。</p></li></ul></li><li><p>使用与<code>Base</code>匹配的函数参数：下面是一些常用的实践。</p><ul><li>当函数或匿名函数用作实参时，最好将它们放到形参的开头，这样就可以实用<code>function...do</code>语法。</li></ul></li></ul><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; mymap(f, arr) = f.(arr)</code><code class="nohighlight hljs ansi" style="display:block;">mymap (generic function with 1 method)</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; mymap([1, 2, 3]) do x
+           2x
+       end</code><code class="nohighlight hljs ansi" style="display:block;">3-element Vector{Int64}:
+ 2
+ 4
+ 6</code></pre><ul><li><p>类似地，<code>Vararg</code>形参出现在函数实参的末尾。<code>IO</code>参数通常是函数的第一个参数。<code>::Type{T}</code>形参构成函数的第一个实参。</p></li><li><p>明智地使用静态参数：只有在实际需要时才推荐使用静态参数。</p></li></ul><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; double(x::T) where {T&lt;:Real} = 2x</code><code class="nohighlight hljs ansi" style="display:block;">double (generic function with 1 method)</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; double(x::Real) = 2x</code><code class="nohighlight hljs ansi" style="display:block;">double (generic function with 1 method)</code></pre><p>两种方法是等价的。只创建了一个方法，第二个方法覆盖了第一个方法。<code>methods()</code>调用将只列出一个方法。尽管声明了形参<code>T</code>，但在函数体中没有使用，因此被认为是多余的并被优化掉了。</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; methods(double)</code><code class="nohighlight hljs ansi" style="display:block;"># 1 method for generic function &quot;double&quot;:
+[1] double(x::Real) in Main at REPL[2]:1</code></pre><p>但是，下面的方法是一个非常相关的方法。</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; myeltype(v::Vector{T}) where {T&lt;:Real} = T</code><code class="nohighlight hljs ansi" style="display:block;">myeltype (generic function with 1 method)</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; myeltype([1.0, 2, 3])</code><code class="nohighlight hljs ansi" style="display:block;">Float64</code></pre><ul><li><p>仅在需要时使用匿名函数：当你需要一个函数而不污染名称空间时，匿名函数非常有用。其次，它们是<code>function...do</code>语法一个非常干净的接口。然而，当函数已经有一个定义的名称时，则不必将函数包装在匿名函数中。例如，<code>map(f, array)</code>优于<code>map(x-&gt;f(x), array)</code>。</p></li><li><p>不要为定义良好的数据类型重载<code>Base</code>方法：下面的代码将说明这一思想。</p></li></ul><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; module MyModule
+       Base.:(*)(x::Symbol, y::Symbol) = Symbol(string(x)*string(y))
+       end</code><code class="nohighlight hljs ansi" style="display:block;">Main.MyModule</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; :a*:b</code><code class="nohighlight hljs ansi" style="display:block;">:ab</code></pre><p>上述代码并不仅限于<code>MyModule</code>。它可以在<code>MyModule</code>加载后从任何地方访问。这可能是有风险的，因为别人可能无意中改变你没有定义的类型的行为。与经典的面向对象语言不同，Julia在数据隐藏、私有和公共区别方面相对灵活。因此，这些指南对于更好的系统设计是必要的。</p><ul><li>仅在绝对需要时才使用<code>try...catch</code>：异常是一个有用的特性，但异常处理也意味着必须跟踪堆栈，必须明确标识异常，并采取所需的操作。理想的编程实践应该确保异常只会少量发生，而分支时由于输入或条件检查而导致的正常故障则作为常规工作流的一部分处理。这确保了限制异常处理的性能开销。</li></ul><h2 id="代码风格"><a class="docs-heading-anchor" href="#代码风格">代码风格</a><a id="代码风格-1"></a><a class="docs-heading-anchor-permalink" href="#代码风格" title="Permalink"></a></h2><p>在前一节中，我们看到了一些可能影响性能或一般编程范例约束的风格问题，但还有一些与代码可读性、表示和社区对代码的整体接受度有关的风格问题。下面是一个C/C++的例子，你的风格是什么？</p><pre><code class="language-c hljs">int main(int argc, char** argv){
+    ...
+    return 0;
+    ...
+}</code></pre><p>或者</p><pre><code class="language-c hljs">int main(int argc, char** argv)
+{
+    ...
+    return 0;
+    ...
+}</code></pre><p>两种风格都是对的。然而，有一群程序员在讨论C/C++编程的正确方式时，他们更喜欢其中的一种。Julia也是如此。有些包喜欢一种样式而不是另一种。他们都有自己的理由支持他们的偏好。一般的指导原则是遵循社区所坚持的风格。我们会在这里看到一些，但我们会建议首选Julia GitHub存储库风格，因为大多数开发人员都习惯了这一点。然而，如果你偏爱另一种风格，请确保你始终遵循它。没有什么比代码风格不一致更糟糕的了。</p><ul><li>缩进：空格是比制表符更好的缩进方式。人们可以将制表符设置为不同的移位位置，这可能会影响缩进。最好的方法是在签入代码时将制表符转换为空格，以避免这些制表符不一致。许多编辑器会自动为你做这些。Julia语言GitHub库使用四个空格。有些包也喜欢两个空格的缩进。由于分支中的短路运算，经常不需要大深度的缩进。下面是一个例子：</li></ul><pre><code class="language-julia hljs">for i = 1:200
+    if a != 0
+        if b != 0
+            # Do something
+        end
+    end
+end
+
+# vs.
+
+for i = 1:200
+    (a == 0 || b == 0) &amp;&amp; continue
+    # Do something
+end</code></pre><p>如你所见，短路计算节省了大量的缩进深度以允许更宽的缩进空间。</p><ul><li>括号的使用：在Julia中，除非确实需要打破常规操作符的优先级，否则不常用括号。</li></ul><pre><code class="language-julia hljs">if a == 0 &amp;&amp; b == 0
+    # Do something
+end
+
+# is preferred over:
+
+if (a == 0) &amp;&amp; (b == 0)
+    # Do something
+end</code></pre><p>因此，建议只在绝对需要的时候使用最小数量的括号。</p><ul><li><p>操作符周围的空格：Julia在大多数情况下语法不依赖于空格。但是，在某些地方，空格是强制的。例如，在三元分支<code>i &gt; 0 ? 1 : -1</code>，问号(<code>?</code>)和冒号(<code>:</code>)周围需要空格。<code>elseif</code>是一个词，<code>else if</code>是一个语法错误。通常，建议在所有操作符周围使用空格。</p><p><code>x = x + 1</code>优于<code>x=x+1</code>。</p><p>但是，在函数参数中可能不建议这样的空格。<code>f(arg1, key=v+1)</code>优于<code>f(arg1, key = v + 1)</code>。</p></li><li><p>用冗长的语法定义多行函数：下面的代码也是函数的定义，但显然可读性不强。</p></li></ul><pre><code class="language-julia hljs">f(x) = begin
+    if iseven(x)
+        2x
+    else
+        3x
+    end
+end</code></pre><p>首选的样式如下：</p><pre><code class="language-julia hljs">function f(x)
+    if iseven(x)
+        return 2x
+    else
+        return 3x
+    end
+end
+
+# or
+
+f(x) = iseven(x) ? 2x : 3x</code></pre><p>短形式用于单行数学结构，长形式用于函数体中的多行情况。</p><ul><li>一行的字符长度限制：这因项目而异。Julia GitHub存储库更喜欢将字符限制设置为92个字符。有些项目还建议120个字符，有些甚至没有限制。然而，限制有助于保持代码的一致性和可读性。作者更喜欢80个字符，因为如果你在1080p显示器上使用像emacs这样的编辑器，你可以同时编辑两个文件。无论决定了什么值，所有的贡献者都必须遵守它。</li></ul><p>为了更好地理解其他一些与格式相关的建议，请参阅Julia语言的代码格式化指南。其他一些组织和个人也提出了他们自己的风格，这些风格在社区中也很受欢迎。</p><h2 id="函数式编程的原则"><a class="docs-heading-anchor" href="#函数式编程的原则">函数式编程的原则</a><a id="函数式编程的原则-1"></a><a class="docs-heading-anchor-permalink" href="#函数式编程的原则" title="Permalink"></a></h2><p>函数式编程并不新鲜。事实上，它是由于Alonzo Church对Lambda微积分的研究而出现的最古老的编程形式。甚至在冯·诺伊曼的计算机概念成为主流之前，计算机就有内存，并且根据所采取的每一步行动，有一个状态机来改变它。内存在代码执行的每一步都被跟踪。这种顺序编程的风格被称为<strong>命令式编程</strong>。</p><h3 id="声明式编程"><a class="docs-heading-anchor" href="#声明式编程">声明式编程</a><a id="声明式编程-1"></a><a class="docs-heading-anchor-permalink" href="#声明式编程" title="Permalink"></a></h3><p>让我们遍历一个列表并打印所有的值。</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; a = [1, 2, 3];</code><code class="nohighlight hljs ansi" style="display:block;"></code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; for i=firstindex(a):lastindex(a)
+           println(a[i])
+       end</code><code class="nohighlight hljs ansi" style="display:block;">1
+2
+3</code></pre><p>在命令式编程中，对遍历列表的声明性语句进行了相当详细的逐步解释。</p><ol><li><p>从数组的第一个索引开始初始化计数器(<code>i</code>)。</p></li><li><p>如果计数器(<code>i</code>)小于或等于数组的最后一个下标。</p><p>a) 获取存储在数组(<code>a</code>)的计数器(<code>i</code>)位置的值。</p><p>b) 将值打印到标准输出。</p><p>c) 将计数器(<code>i</code>)增加1。</p></li><li><p>转到2。</p></li></ol><p>将其与下面的代码进行对比：</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; foreach(println, a)</code><code class="nohighlight hljs ansi" style="display:block;">1
+2
+3</code></pre><p>解释代码的最接近的英文语句是遍历数组并将所有值打印到标准输出。这是一种声明式编程风格。Julia提供了命令式编程的所有构造，同时也提供了声明式编程的灵活性。虽然声明式编程风格是函数式编程的核心，但还有一些其他属性。</p><h3 id="函数无副作用"><a class="docs-heading-anchor" href="#函数无副作用">函数无副作用</a><a id="函数无副作用-1"></a><a class="docs-heading-anchor-permalink" href="#函数无副作用" title="Permalink"></a></h3><p>函数的数学定义是映射。你从函数的域中输入一个参数，得到的输出是一个映射到函数范围内的值：</p><p><img src="../pictures/functionmap.png" alt="Function Map"/></p><p>这个映射是严格的，例如<code>y1 = f(x1)</code>。<code>f</code>永远不会改变<code>x1</code>的值。这本质上意味着函数不能改变输入的状态，并且输入数据是不变的。你可以将它与将不变类型定义为结构的能力相关联。Julia中可以更改输入参数的函数，建议使用以感叹号(<code>!</code>)结尾的名称，这些函数会产生副作用。</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; a = [1, 2, 3];</code><code class="nohighlight hljs ansi" style="display:block;"></code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; pop!(a)</code><code class="nohighlight hljs ansi" style="display:block;">3</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; a</code><code class="nohighlight hljs ansi" style="display:block;">2-element Vector{Int64}:
+ 1
+ 2</code></pre><p>前面的<code>pop!()</code>方法改变了数组状态并引入了一个副作用。当函数依赖于全局变量(这些变量的状态可以改变，因此函数不再对相同的输入返回相同的输出)时，副作用就更难跟踪了。</p><h3 id="高阶函数"><a class="docs-heading-anchor" href="#高阶函数">高阶函数</a><a id="高阶函数-1"></a><a class="docs-heading-anchor-permalink" href="#高阶函数" title="Permalink"></a></h3><p>高阶函数就像其他函数的函数。它们本质上可以被认为是一个函数的函数：</p><p><img src="../pictures/highorderfunction.png" alt="High order function"/></p><p>在前面的例子中，<code>h = g ∘ f</code>是一个函数组合。Julia也支持这样的定义。</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; f(x) = 2x;</code><code class="nohighlight hljs ansi" style="display:block;"></code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; g(x) = x*x;</code><code class="nohighlight hljs ansi" style="display:block;"></code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; h = g ∘ f</code><code class="nohighlight hljs ansi" style="display:block;">Main.g ∘ Main.f</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; h(3)</code><code class="nohighlight hljs ansi" style="display:block;">36</code></pre><p><code>h</code>是以<code>f</code>为参数的函数吗？这些函数类型在数学中很常见。函数的导数就是这样的关系。<code>map()</code>函数也接受一个函数作为参数，这个我们之前已经见过多次了。这些本质上是高阶函数。它们有助于声明式编程。</p><h3 id="不变性"><a class="docs-heading-anchor" href="#不变性">不变性</a><a id="不变性-1"></a><a class="docs-heading-anchor-permalink" href="#不变性" title="Permalink"></a></h3><p>在“无副作用的函数”一节中，我们讨论了不变性。字符串和结构类型是不变的。因此，没有副作用的函数在操作字符串或结构数据类型集时分配额外的临时内存。大量的小分配可能会造成性能损失。使用<code>map</code>、<code>reduce</code>或<code>mapreduce</code>可以帮助最小化临时空间分配，并使不变函数更高效。</p><p>我们讨论了函数式编程的几个方面。如果你对使用多种编程语言对函数式编程的概念有兴趣，可以参考《函数式思维》。读者很自然地会想，他们应该遵循命令式风格还是函数式风格。在这方面，Julia语言相当灵活。尽管在许多地方你会发现声明式程序、递归函数、理解式或类似的特性，但Julia并没有规定任何特定的编程风格。该语言提供了同样有用的结构来进行命令式编程。有时候，不变性可能会导致中间变量分配的增加，从而影响代码的性能。在这种情况下，使用具有副作用的函数可能是理想的。</p><h2 id="常用模式"><a class="docs-heading-anchor" href="#常用模式">常用模式</a><a id="常用模式-1"></a><a class="docs-heading-anchor-permalink" href="#常用模式" title="Permalink"></a></h2><p>在前一节中，我们介绍了函数式编程的基础知识，并研究了它们与Julia编程的关系。然而，函数式编程原则在任何语言中的应用都会因语言能力的不同而不同。在本节中，我们将介绍一些常用的模式，以及如何在Julia中实现它们。</p><h3 id="接口"><a class="docs-heading-anchor" href="#接口">接口</a><a id="接口-1"></a><a class="docs-heading-anchor-permalink" href="#接口" title="Permalink"></a></h3><p>Julia中的所有函数定义都可以充当接口。假设我们想要创建一个二维几何体的模块，并实现二维形状必须有面积和边界框的方法。界面看起来如下。</p><pre><code class="language-julia hljs">module geom
+# All shape objects must have implementation for the following methods.
+# area(x): shall return the area of a 2-D shape
+function area end
+# bbox(x): shall return the bounding box of a 2-D shape
+function bbox end
+end</code></pre><p>接口仅仅是指令。但是，可以通过强制一个抛出错误的默认实现来使它们成为硬接口。</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; module geom
+       area(x) = throw(Base.MethodError(area, (x,)))
+       bbox(x) = throw(Base.MethodError(bbox, (x,)))
+       struct Rectangle
+           x; y; w; h
+       end
+       export Rectangle, area, bbox
+       end</code><code class="nohighlight hljs ansi" style="display:block;">Main.geom</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; using .geom</code><code class="nohighlight hljs ansi" style="display:block;"></code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; r = Rectangle(0, 0, 10, 20)</code><code class="nohighlight hljs ansi" style="display:block;">Main.geom.Rectangle(0, 0, 10, 20)</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; area(r)</code><code class="nohighlight hljs ansi" style="display:block;">ERROR: MethodError: no method matching area(::Main.geom.Rectangle)
+Closest candidates are:
+  area(::Any) at REPL[1]:2</code></pre><p>默认的实现可以是一个返回输入的单位函数，从而使接口成为一个软接口。</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; module geom1
+       area(x) = identity(x)
+       bbox(x) = identity(x)
+       struct Rectangle
+           x; y; w; h
+       end
+       export Rectangle, area, bbox
+       end</code><code class="nohighlight hljs ansi" style="display:block;">Main.geom1</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; r = geom1.Rectangle(0, 0, 10, 20)</code><code class="nohighlight hljs ansi" style="display:block;">Main.geom1.Rectangle(0, 0, 10, 20)</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; geom1.area(r)</code><code class="nohighlight hljs ansi" style="display:block;">Main.geom1.Rectangle(0, 0, 10, 20)</code></pre><h3 id="超类"><a class="docs-heading-anchor" href="#超类">超类</a><a id="超类-1"></a><a class="docs-heading-anchor-permalink" href="#超类" title="Permalink"></a></h3><p>函数<code>area</code>和<code>bbox</code>对于类型<code>Any</code>没有任何意义。在<code>Rectangle</code>、<code>Triangle</code>或<code>Circle</code>类型上执行接口的一种方法是从超类<code>Shape</code>派生它们。</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; module geom2
+       abstract type Shape end
+       area(x::Shape) = nothing
+       bbox(x::Shape) = nothing
+       
+       struct Rectangle &lt;: Shape
+           x; y; w; h
+       end
+       end</code><code class="nohighlight hljs ansi" style="display:block;">Main.geom2</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; r = geom2.Rectangle(0, 0, 10, 20)</code><code class="nohighlight hljs ansi" style="display:block;">Main.geom2.Rectangle(0, 0, 10, 20)</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; geom2.area(r)</code><code class="nohighlight hljs ansi" style="display:block;"></code></pre><p>我们可以将多边形引入模块中。多边形是由直线连接的多个点组成的封闭形状。</p><pre><code class="language-julia hljs">module geom2
+...
+sturct Polygon &lt;: Shape
+    pts::Vector{Tuple{Any, Any}}
+end
+...
+end</code></pre><p>假设形状的直线不是封闭的，我们将得到一个<code>PolyLine</code>类型。对于一个开放的形状，没有面积的概念。因此，函数<code>area()</code>应该抛出一个错误。一般来说，一个好的面向对象设计，<code>isa</code>关系必须在各个方面都是完整的。<code>Polygon</code>和<code>PolyLine</code>都必须体现<code>Shape</code>的所有属性。如果<code>area(::PolyLine)</code>抛出错误，则<code>PolyLine isa Shape</code>的关系将被损害。因此，有人建议引入<code>OpenShape</code>和<code>ClosedShape</code>作为抽象类型。<code>area()</code>函数将只存在于<code>ClosedShape</code>。下面是一个可能的实现。</p><pre><code class="language-julia hljs">module geom3
+abstract type Shape end
+bbox(x::Shape) = nothing
+
+abstract type OpenShape &lt;: Shape end
+struct PolyLine &lt;: OpenShape
+    pts::Vector{Tuple{Any, Any}}
+end
+
+abstract type ClosedShape &lt;: Shape end
+area(x::ClosedShape) = nothing
+
+struct Rectangle &lt;: ClosedShape
+    x; y; w; h
+end
+
+struct Polygon &lt;: ClosedShape
+    pts::Vector{Tuple{Any, Any}}
+end
+
+end</code></pre><p>如果我们想在模块中引入<code>Circle</code>和<code>Arc</code>，它们都是非直线形状。如果我们引入更多的分类，如<code>LinearShape</code>和<code>NonLinearShape</code>作为新的抽象类型，我们真的不能很好地扩展它，因为Julia没有多重继承。我们将创建新的类型，如为<code>Circle</code>创建<code>NonLinearClosedShape</code>和为<code>Arc</code>创建<code>NonLinearOpenShape</code>。虽然从抽象类型继承是执行接口的好方法，但由于单一继承限制，将其概念化用于大量的分类是不切实际的。在这种情况下可行的解决方案是<strong>特征</strong>。</p><h3 id="Holy特征"><a class="docs-heading-anchor" href="#Holy特征">Holy特征</a><a id="Holy特征-1"></a><a class="docs-heading-anchor-permalink" href="#Holy特征" title="Permalink"></a></h3><p>特征是由Julia的贡献者Tim Holy确定的，他提出了一种模型哲学，通过<code>isa</code>关系来区分功能差异。这些功能差异被称为<strong>Holy特征</strong>或简称特征。如果我们着眼于<code>geom</code>模块，我们可以通过以下概念来简化设计：</p><ol><li><p>所有的几何形状都派生自抽象类型<code>Shape</code>。</p></li><li><p>所有形状都有一个边界框，可以通过调用<code>bbox(::Shape)</code>获得。</p></li><li><p>有些形状具有有效封闭区域的特征。对于那些形状，需要实现<code>area()</code>函数。它不会为其他形状实现。</p></li></ol><p>根据前面的描述，所有的几何形状都只能由<code>Shape</code>派生。所有的形状都有一个<code>bbox()</code>方法。</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; abstract type Shape end</code><code class="nohighlight hljs ansi" style="display:block;"></code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; bbox(x::Shape) = nothing</code><code class="nohighlight hljs ansi" style="display:block;">bbox (generic function with 1 method)</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; struct PolyLine &lt;: Shape
+           pts::Vector{Tuple{Any, Any}}
+       end</code><code class="nohighlight hljs ansi" style="display:block;"></code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; struct Rectangle &lt;: Shape
+           x; y; w; h
+       end</code><code class="nohighlight hljs ansi" style="display:block;"></code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; struct Polygon &lt;: Shape
+           pts::Vector{Tuple{Any, Any}}
+       end</code><code class="nohighlight hljs ansi" style="display:block;"></code></pre><p>但是只有一些形状具有<code>area()</code>方法。这些将插在突出显示的区域。特征本质上有两种无属性类型：一个是特征存在，另一个是特征不存在。</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; abstract type HasAreaTrait end</code><code class="nohighlight hljs ansi" style="display:block;"></code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; struct HasArea &lt;: HasAreaTrait end</code><code class="nohighlight hljs ansi" style="display:block;"></code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; struct HasNoArea &lt;: HasAreaTrait end</code><code class="nohighlight hljs ansi" style="display:block;"></code></pre><p>我们还将指定哪个形状具有特征，哪个形状没有。默认情况下，形状没有面积。</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; HasAreaTrait(::Type) = HasNoArea()</code><code class="nohighlight hljs ansi" style="display:block;">Main.HasAreaTrait</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; HasAreaTrait(::Type{Polygon}) = HasArea()</code><code class="nohighlight hljs ansi" style="display:block;">Main.HasAreaTrait</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; HasAreaTrait(::Type{Rectangle}) = HasArea()</code><code class="nohighlight hljs ansi" style="display:block;">Main.HasAreaTrait</code></pre><p>最后，我们必须确保面积函数正确地利用了特征。</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; area(x::T) where {T&lt;:Shape} = area(HasAreaTrait(T), x)</code><code class="nohighlight hljs ansi" style="display:block;">area (generic function with 1 method)</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; area(::HasArea, x::T) where {T&lt;:Shape} = error(&quot;area(::HasArea, $T) method must be implemented&quot;)</code><code class="nohighlight hljs ansi" style="display:block;">area (generic function with 2 methods)</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; area(::HasArea, r::Rectangle) = r.w*r.h</code><code class="nohighlight hljs ansi" style="display:block;">area (generic function with 3 methods)</code></pre><p>结果如下：</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; area(Rectangle(0, 0, 10, 20))</code><code class="nohighlight hljs ansi" style="display:block;">200</code></pre><p><code>area(::Rectangle)</code>通过实现的特征框架被分配到<code>area(::HasArea, ::Rectangle)</code>后返回200。</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; area(Polygon([(0, 0), (10, 0), (10, 20), (0, 20)]))</code><code class="nohighlight hljs ansi" style="display:block;">ERROR: area(::HasArea, Main.Polygon) method must be implemented</code></pre><p><code>area(::Polygon)</code>被分派到<code>area(::HasArea，::Polygon)</code>，它是请求特定实现的通用参数化方法。</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; area(PolyLine([(0, 0), (10, 0), (10, 20), (0, 20)]))</code><code class="nohighlight hljs ansi" style="display:block;">ERROR: MethodError: no method matching area(::Main.HasNoArea, ::Main.PolyLine)
+Closest candidates are:
+  area(!Matched::Main.HasArea, ::T) where T&lt;:Main.Shape at REPL[2]:1</code></pre><p><code>area(::PolyLine)</code>被分派到<code>area(::HasNoArea, ::PolyLine)</code>，它没有实现，所以返回了一般的<code>MethodError</code>。</p><p>Julia经常使用特征模式。集具有多种功能，在它们的实现中可以看到几种这样的模式。例如，大多数集都支持迭代器框架。迭代器的行为被区分为特征。</p><h3 id="委托"><a class="docs-heading-anchor" href="#委托">委托</a><a id="委托-1"></a><a class="docs-heading-anchor-permalink" href="#委托" title="Permalink"></a></h3><p>有时，我们需要为一个类型引入一些功能，但这些功能中的绝大部分已经在其他类型中存在，也就是说我们只需对这个类型增加某些额外的功能。Julia的类型不能从具体类型中继承属性。因此，扩展对象的唯一方法是组合已有对象并将其委托给组合进来的类型。下面的例子会使这个概念变得更加清楚。</p><p>假设我们引入一个<code>Square</code>类型，它的函数与已定义的<code>Rectangle</code>类型相同，由于正方形的宽度和高度是相同的，它的构造函数只有3个参数。</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; module geom4
+       abstract type Shape end
+       bbox(x::Shape) = nothing
+       
+       struct Rectangle &lt;: Shape
+           x; y; w; h
+       end
+       
+       bbox(x::Rectangle) = x
+       
+       
+       ### Square has Rectangle as an attribute ###
+       
+       struct Square &lt;: Shape
+           r::Rectangle
+           Square(x, y, w) = new(Rectangle(x, y, w, w))
+       end
+       
+       abstract type HasAreaTrait end
+       struct HasArea &lt;: HasAreaTrait end
+       struct HasNoArea &lt;: HasAreaTrait end
+       
+       HasAreaTrait(::Type) = HasNoArea()
+       HasAreaTrait(::Type{Rectangle}) = HasArea()
+       
+       area(x::T) where {T&lt;:Shape} = area(HasAreaTrait(T), x)
+       
+       area(::HasArea, x::T) where {T&lt;:Shape} = error(&quot;area(::HasArea, $T) method must be implemented&quot;)
+       area(::HasArea, r::Rectangle) = r.w*r.h
+       
+       ### Code for delegation ###
+       
+       for op in [:bbox, :area]
+           @eval $op(s::Square) = ($op)(s.r)
+       end
+       
+       end</code><code class="nohighlight hljs ansi" style="display:block;">Main.geom4</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; using .geom4</code><code class="nohighlight hljs ansi" style="display:block;"></code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; geom4.area(geom4.Rectangle(0,0,10,20))</code><code class="nohighlight hljs ansi" style="display:block;">200</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; geom4.area(geom4.Square(0,0,10))</code><code class="nohighlight hljs ansi" style="display:block;">100</code></pre><p><code>Square</code>对象将<code>Rectangle</code>实例作为它的属性。因此，<code>Square</code>对象将使用已经为<code>Rectangle</code>对象定义的<code>bbox</code>和<code>area</code>。<code>Lazy.jl</code>包中定义了一些宏比如<code>@forward</code>来帮助实现委托。</p><h3 id="访问方法"><a class="docs-heading-anchor" href="#访问方法">访问方法</a><a id="访问方法-1"></a><a class="docs-heading-anchor-permalink" href="#访问方法" title="Permalink"></a></h3><p>Julia中的类型属性是公开和透明的，它几乎没有任何数据封装。然而，有时可能需要数据隐藏和访问方法(获取和设置)来访问这些变量。一个可能的原因是在设置值之前需要进行数据验证。</p><pre><code class="language-julia hljs">module geom
+mutable struct Rectangle
+    _x; _y; _w; _h
+    function Rectangle(x, y, w, h)
+        (w &lt;= 0 || h &lt;= 0) &amp;&amp; error(&quot;width and height must be positive&quot;)
+        new(x, y, w, h)
+    end
+end
+w(r::Rectangle) = r._w
+function w!(r::Rectangle, tw)
+    tw &lt;= 0 &amp;&amp; error(&quot;width cannot be negative&quot;)
+    r._w = tw
+end
+end</code></pre><p><code>w()</code>和<code>w!()</code>分别为访问和设置方法，<code>_w</code>是一个以下划线(<code>_</code>)开头的属性，它提示不应该直接访问这样的属性。</p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../ch10file/">« 文件</a><a class="docs-footer-nextpage" href="../ch12performance/">性能 »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.10 on <span class="colophon-date" title="Friday 31 December 2021 10:09">Friday 31 December 2021</span>. Using Julia version 1.7.0.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
