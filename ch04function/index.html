@@ -79,8 +79,7 @@ Closest candidates are:
                    (res = attacks(currentrow, j, i, xs[i])) &amp;&amp; break # 对当前行的j列与前面各行进行攻击检验，攻击返回true并结束检验，不攻击返回false并继续检验直到所有行都检验完毕
                end
                res &amp;&amp; continue                 # 攻击，则检验当前行的下一列
-               v = queens(N,xs...,j)           # 不攻击，则将该列（按顺序首先找到的可行列）加到列位置列表中，并继续对下一行进行检验，返回成功与否
-               v &amp;&amp; return v                   # 成功则返回，不成功则在当前行寻找下一个不攻击的可行列
+               queens(N,xs...,j) &amp;&amp; return true  # 不攻击，则将该列（按顺序首先找到的可行列）加到列位置列表中，并继续对下一行进行检验，成功则返回，不成功则在当前行寻找下一个不攻击的可行列
            end
            return false                        # 所有列都检验完，仍找不到可行列，则返回失败
        end</code><code class="nohighlight hljs ansi" style="display:block;">queens (generic function with 1 method)</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; queens(8)</code><code class="nohighlight hljs ansi" style="display:block;">Final Positions: (1, 5, 8, 6, 3, 7, 2, 4)
